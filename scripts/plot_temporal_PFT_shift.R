@@ -117,7 +117,7 @@ plot_temporal_PFT_shift <- function(myDF) {
     max.lim <- log(max(spDF$Total, na.rm=T))
     
     ### map
-    for (i in c(1901:2015)) {
+    for (i in c(1901, 1951, 2000, 2010, 2015)) {
         
         tDF <- subset(spDF, Year == i)
         
@@ -436,14 +436,18 @@ plot_temporal_PFT_shift <- function(myDF) {
         
         
         ### combine plot
-        combined_plot <- plot_grid(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10,
-                                   ncol=10, align="vh", axis = "l")
+        combined_plot <- plot_grid(p1, p2, p3, p4, p5, 
+                                   p6, p7, p8, p9, p10,
+                                   ncol=5, align="vh", axis = "l")
         
         ### pdf
-        pdf(paste0("output/LAI_", i, ".pdf"), width=16, height=4)
-        plot_grid(combined_plot, combined_legend, 
+        #grDevices::pdf(paste0("output/LAI_", i, ".pdf"), width=16, height=4)
+        out_plot <- plot_grid(combined_plot, combined_legend, 
                   ncol=1, rel_heights=c(1, 1))
-        dev.off() 
+        #grDevices::dev.off() 
+        
+        save_plot(paste0("output/LAI_", i, ".pdf"),
+                  out_plot, base_width=4)
         
         
     }
