@@ -16,7 +16,9 @@ pacman::p_load(dplyr,
                cowplot,
                gridExtra,
                ggthemes,
-               RColorBrewer)    
+               RColorBrewer,
+               gganimate,
+               gifski)    
 
 
 #### Sourcing all R files in the modules subdirectory
