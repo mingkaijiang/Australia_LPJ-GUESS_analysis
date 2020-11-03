@@ -30,7 +30,13 @@ for (i in 2:20) {
 
 ############################# plotting #################################
 ### plot PFT-based response variable change over time
-plot_temporal_PFT_shift(myDF)
+plot_PFT_proportional_contribution_by_year_overview(myDF)
 
+plot_static_LAI_by_year_map_merge_all_PFT(myDF)
 
+plot_static_PFT_occupation_density_map(myDF)
+
+plot_animated_LAI_map(myDF)
+
+plot_animated_LAI_latitudinal_gradient(myDF)
 
