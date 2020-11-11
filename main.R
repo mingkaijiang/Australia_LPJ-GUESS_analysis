@@ -40,3 +40,19 @@ plot_animated_LAI_map(myDF)
 
 plot_animated_LAI_latitudinal_gradient(myDF)
 
+
+
+############################# Read input #################################
+### tree density
+myDF <- read.table("input/run1/dens.out", header=T)
+
+### merge all 20 runs together
+for (i in 2:20) {
+    myDF2 <- read.table(paste0("input/run", i, "/dens.out"), header=T)
+    myDF <- rbind(myDF, myDF2)
+}
+
+############################# plotting #################################
+plot_animated_density_map(myDF)
+
+plot_animated_density_latitudinal_gradient(myDF)
