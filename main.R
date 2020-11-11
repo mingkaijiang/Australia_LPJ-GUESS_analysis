@@ -55,4 +55,3 @@ for (i in 2:20) {
 ############################# plotting #################################
 plot_animated_density_map(myDF)
 
-plot_animated_density_latitudinal_gradient(myDF)

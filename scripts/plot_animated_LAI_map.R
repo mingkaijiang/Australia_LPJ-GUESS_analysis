@@ -12,7 +12,7 @@ plot_animated_LAI_map <- function(myDF) {
     ### TeNE
     p1 <- ggplot() + 
         geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(TeNE))) +
-        coord_quickmap(xlim=range(tDF$Lon), ylim=range(tDF$Lat))+
+        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
               axis.text.x=element_blank(),
@@ -43,7 +43,7 @@ plot_animated_LAI_map <- function(myDF) {
     ### TeBS
     p1 <- ggplot() + 
         geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(TeBS))) +
-        coord_quickmap(xlim=range(tDF$Lon), ylim=range(tDF$Lat))+
+        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
               axis.text.x=element_blank(),
@@ -74,7 +74,7 @@ plot_animated_LAI_map <- function(myDF) {
     ### IBS
     p1 <- ggplot() + 
         geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(IBS))) +
-        coord_quickmap(xlim=range(tDF$Lon), ylim=range(tDF$Lat))+
+        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
               axis.text.x=element_blank(),
@@ -106,7 +106,7 @@ plot_animated_LAI_map <- function(myDF) {
     ### TeBE
     p1 <- ggplot() + 
         geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(TeBE))) +
-        coord_quickmap(xlim=range(tDF$Lon), ylim=range(tDF$Lat))+
+        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
               axis.text.x=element_blank(),
@@ -137,7 +137,7 @@ plot_animated_LAI_map <- function(myDF) {
     ### TrBE
     p1 <- ggplot() + 
         geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(TrBE))) +
-        coord_quickmap(xlim=range(tDF$Lon), ylim=range(tDF$Lat))+
+        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
               axis.text.x=element_blank(),
@@ -168,7 +168,7 @@ plot_animated_LAI_map <- function(myDF) {
     ### TrIBE
     p1 <- ggplot() + 
         geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(TrIBE))) +
-        coord_quickmap(xlim=range(tDF$Lon), ylim=range(tDF$Lat))+
+        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
               axis.text.x=element_blank(),
@@ -198,7 +198,7 @@ plot_animated_LAI_map <- function(myDF) {
     ### TrBR
     p1 <- ggplot() + 
         geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(TrBR))) +
-        coord_quickmap(xlim=range(tDF$Lon), ylim=range(tDF$Lat))+
+        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
               axis.text.x=element_blank(),
@@ -228,7 +228,7 @@ plot_animated_LAI_map <- function(myDF) {
     ### C3G
     p1 <- ggplot() + 
         geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(C3G))) +
-        coord_quickmap(xlim=range(tDF$Lon), ylim=range(tDF$Lat))+
+        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
               axis.text.x=element_blank(),
@@ -259,7 +259,7 @@ plot_animated_LAI_map <- function(myDF) {
     ### C4G
     p1 <- ggplot() + 
         geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(C4G))) +
-        coord_quickmap(xlim=range(tDF$Lon), ylim=range(tDF$Lat))+
+        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
               axis.text.x=element_blank(),
