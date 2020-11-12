@@ -42,7 +42,7 @@ plot_animated_density_map <- function(myDF) {
     
     ### TeBS
     p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(TeBS))) +
+        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=TeBS)) +
         coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
@@ -73,7 +73,7 @@ plot_animated_density_map <- function(myDF) {
     
     ### IBS
     p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(IBS))) +
+        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=IBS)) +
         coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
@@ -105,7 +105,7 @@ plot_animated_density_map <- function(myDF) {
     
     ### TeBE
     p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(TeBE))) +
+        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=TeBE)) +
         coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
@@ -136,7 +136,7 @@ plot_animated_density_map <- function(myDF) {
     
     ### TrBE
     p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(TrBE))) +
+        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=TrBE)) +
         coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
@@ -167,7 +167,7 @@ plot_animated_density_map <- function(myDF) {
     
     ### TrIBE
     p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(TrIBE))) +
+        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=TrIBE)) +
         coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
@@ -197,7 +197,7 @@ plot_animated_density_map <- function(myDF) {
     
     ### TrBR
     p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(TrBR))) +
+        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=TrBR)) +
         coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
@@ -225,9 +225,10 @@ plot_animated_density_map <- function(myDF) {
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save("animated_map_density_TrBR.gif", animation=last_animation(), path="output/")
     
-    ### C3G
+   
+    ### Total
     p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(C3G))) +
+        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=Total)) +
         coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
@@ -239,38 +240,7 @@ plot_animated_density_map <- function(myDF) {
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
               legend.position = "right")+
-        scale_fill_continuous(name="density C3G",
-                              na.value = 'white',
-                              type = "viridis",
-                              limits = c(min.lim,max.lim),
-                              breaks = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9),
-                              labels = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9))+
-        transition_time(Year)+
-        labs(title = "Year: {frame_time}")+
-        shadow_wake(wake_length = 0.1, alpha = FALSE)
-    
-    ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_C3G.gif", animation=last_animation(), path="output/")
-    
-    
-    ### C4G
-    p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=log(C4G))) +
-        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
-        borders("world", col="grey", lwd=0.2) +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_blank(),
-              axis.title.x=element_blank(),
-              axis.text.y=element_blank(),
-              axis.title.y=element_blank(),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.position = "right")+
-        scale_fill_continuous(name="density C4G",
+        scale_fill_continuous(name="density Total",
                               na.value = 'white',
                               type = "viridis",
                               limits = c(min.lim,max.lim),
