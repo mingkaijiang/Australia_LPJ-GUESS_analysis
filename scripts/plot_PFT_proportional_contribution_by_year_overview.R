@@ -48,34 +48,36 @@ plot_PFT_proportional_contribution_by_year_overview <- function(myDF) {
     }
     
     ### sum of all grids
-    outDF$All <- rowSums(outDF[,2:12])
+    outDF$All <- rowSums(outDF[,2:13])
     
     ### calculate %
     pctDF <- outDF[,1:13]
-    pctDF$BNE <- pctDF$BNE/outDF$All
-    pctDF$BINE <- pctDF$BINE/outDF$All
-    pctDF$BNS <- pctDF$BNS/outDF$All
-    pctDF$TeNE <- pctDF$TeNE/outDF$All
-    pctDF$TeBS <- pctDF$TeBS/outDF$All
-    pctDF$IBS <- pctDF$IBS/outDF$All
-    pctDF$TeBE <- pctDF$TeBE/outDF$All
-    pctDF$TrBE <- pctDF$TrBE/outDF$All
-    pctDF$TrIBE <- pctDF$TrIBE/outDF$All
-    pctDF$TrBR <- pctDF$TrBR/outDF$All
-    pctDF$C3G <- pctDF$C3G/outDF$All
-    pctDF$C4G <- pctDF$C4G/outDF$All
+    pctDF$BNE <- outDF$BNE/outDF$All
+    pctDF$BINE <- outDF$BINE/outDF$All
+    pctDF$BNS <- outDF$BNS/outDF$All
+    pctDF$TeNE <- outDF$TeNE/outDF$All
+    pctDF$TeBS <- outDF$TeBS/outDF$All
+    pctDF$IBS <- outDF$IBS/outDF$All
+    pctDF$TeBE <- outDF$TeBE/outDF$All
+    pctDF$TrBE <- outDF$TrBE/outDF$All
+    pctDF$TrIBE <- outDF$TrIBE/outDF$All
+    pctDF$TrBR <- outDF$TrBR/outDF$All
+    pctDF$C3G <- outDF$C3G/outDF$All
+    pctDF$C4G <- outDF$C4G/outDF$All
     
-    outDF <- melt(pctDF, id.vars=c("Year"),
-                  measure.vars=c("BNE", "BINE", "BNS", "TeNE",
-                                 "TeBS", "IBS", "TeBE", "TrBE", 
-                                 "TrIBE", "TrBR", "C3G", "C4G"),
-                  variable.name="PFT",
-                  value.name="pct")
+
+    outDF2 <- reshape2::melt(pctDF, id.vars=c("Year"),
+                             measure.vars=c("BNE", "BINE", "BNS", "TeNE",
+                                            "TeBS", "IBS", "TeBE", "TrBE", 
+                                            "TrIBE", "TrBR", "C3G", "C4G"),
+                             variable.name="PFT",
+                             value.name="pct")
+    
     
     ### plot PFT by year
     col.lab <- brewer.pal(12, name="Paired")
     
-    p1 <- ggplot(outDF) +
+    p1 <- ggplot(outDF2) +
         geom_bar(aes(x = Year, y = pct, fill = PFT), stat="identity", width = 0.7)+
         coord_flip()+
         scale_fill_manual(values = col.lab)+
@@ -93,7 +95,7 @@ plot_PFT_proportional_contribution_by_year_overview <- function(myDF) {
               legend.box.just = 'left',
               plot.title = element_text(size=16, face="bold.italic", 
                                         hjust = 0.5))+
-        ylim(c(0,1.15))
+        ylim(c(0,1.0))
     
     ### save pdf
     pdf("output/PFT_by_year.pdf", width = 6, height = 8)
