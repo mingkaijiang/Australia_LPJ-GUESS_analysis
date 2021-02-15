@@ -1,5 +1,66 @@
 plot_animated_individual_map <- function(myDF) {
     
+    ### color labels
+    col.list <- brewer.pal(12, name="Paired")
+    
+    ### Basic stuff - patch age, separated by PFT and year
+    p1 <- ggplot(myDF,aes(x=Page, color=as.factor(PFT))) +
+        geom_density()+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=6),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="bottom",
+              legend.text.align=0)+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)+
+        scale_color_manual(name="PFT", 
+                           values=col.list,
+                           labels=c("1"="BNE","2"="BINE","3"="BNS", 
+                                    "4"="TeNE","5"="TeBS","6"="IBS",
+                                    "7"="TeBE","8"="TrBE","9"="TrIBE", 
+                                    "10"="TrBR","11"="C3G","12"="C4G"))+
+        xlab("Patch age")
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_density_patch_age.gif", animation=last_animation(), path="output/dgvm/")
+    
+    
+    p1 <- ggplot(myDF,aes(x=Page, color=as.factor(PFT))) +
+        geom_density()+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=6),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="bottom",
+              legend.text.align=0)+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)+
+        scale_color_manual(name="PFT", 
+                           values=col.list,
+                           labels=c("1"="BNE","2"="BINE","3"="BNS", 
+                                    "4"="TeNE","5"="TeBS","6"="IBS",
+                                    "7"="TeBE","8"="TrBE","9"="TrIBE", 
+                                    "10"="TrBR","11"="C3G","12"="C4G"))+
+        xlab("Patch age")
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_density_patch_age.gif", animation=last_animation(), path="output/dgvm")
+    
     
     ### how does each individual evolve within each grid over time
     test <- subset(myDF, Lon == 150.25 && Lat == -34.25)
@@ -337,4 +398,5 @@ plot_animated_individual_map <- function(myDF) {
     anim_save("animated_map_density_C4G.gif", animation=last_animation(), path="output/")
     #
     
-}
+    }
+    

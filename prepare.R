@@ -3,6 +3,10 @@ if(!dir.exists("output")) {
     dir.create("output", showWarnings = FALSE)
 }
 
+if(!dir.exists("output/dgvm")) {
+    dir.create("output/dgvm", showWarnings = FALSE)
+}
+
 #### Install packages
 if(!require(pacman))install.packages("pacman")
 pacman::p_load(dplyr, 
