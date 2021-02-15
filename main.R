@@ -55,3 +55,11 @@ for (i in 2:20) {
 ############################# plotting #################################
 plot_animated_density_map(myDF)
 
+
+############################# Read input #################################
+### individual data
+myDF <- read.table("input/run1/indiv.out", header=T)
+
+
+############################# plotting #################################
+plot_animated_individual_map(myDF)
