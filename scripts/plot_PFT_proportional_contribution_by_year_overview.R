@@ -98,7 +98,7 @@ plot_PFT_proportional_contribution_by_year_overview <- function(myDF) {
         ylim(c(0,1.0))
     
     ### save pdf
-    pdf("output/basic/PFT_by_year.pdf", width = 6, height = 8)
+    pdf("output/static/PFT_by_year.pdf", width = 6, height = 8)
     plot(p1)
     dev.off()
     

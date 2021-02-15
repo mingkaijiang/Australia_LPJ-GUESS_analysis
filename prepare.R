@@ -3,10 +3,17 @@ if(!dir.exists("output")) {
     dir.create("output", showWarnings = FALSE)
 }
 
+### static output 
+if(!dir.exists("output/static")) {
+    dir.create("output/static", showWarnings = FALSE)
+}
+
+### basic animation plot - default output
 if(!dir.exists("output/basic")) {
     dir.create("output/basic", showWarnings = FALSE)
 }
 
+### individual-level animation plot 
 if(!dir.exists("output/dgvm")) {
     dir.create("output/dgvm", showWarnings = FALSE)
 }

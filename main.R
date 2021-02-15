@@ -27,8 +27,6 @@ for (i in 2:20) {
     myDF <- rbind(myDF, myDF2)
 }
 
-
-############################# plotting #################################
 ### plot PFT-based response variable change over time
 plot_PFT_proportional_contribution_by_year_overview(myDF)
 
@@ -42,7 +40,7 @@ plot_animated_LAI_latitudinal_gradient(myDF)
 
 
 
-############################# Read input #################################
+############################# Read input on tree density #################################
 ### tree density
 myDF <- read.table("input/run1/dens.out", header=T)
 
@@ -52,14 +50,32 @@ for (i in 2:20) {
     myDF <- rbind(myDF, myDF2)
 }
 
-############################# plotting #################################
+### plotting 
 plot_animated_density_map(myDF)
 
 
-############################# Read input #################################
+############################# Read input on individual output #################################
 ### individual data
 myDF <- read.table("input/run1/indiv.out", header=T)
 
+### merge all 20 runs together
+for (i in 2:20) {
+    myDF2 <- read.table(paste0("input/run", i, "/indiv.out"), header=T)
+    myDF <- rbind(myDF, myDF2)
+}
 
-############################# plotting #################################
+### plotting 
 plot_animated_individual_map(myDF)
+
+
+
+
+
+
+
+
+
+
+#### End
+
+
