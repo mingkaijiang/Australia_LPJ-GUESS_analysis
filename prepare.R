@@ -18,6 +18,11 @@ if(!dir.exists("output/dgvm")) {
     dir.create("output/dgvm", showWarnings = FALSE)
 }
 
+### individual-level animation plot 
+if(!dir.exists("output/self-thinning")) {
+    dir.create("output/self-thinning", showWarnings = FALSE)
+}
+
 #### Install packages
 if(!require(pacman))install.packages("pacman")
 pacman::p_load(dplyr, 

@@ -67,7 +67,7 @@ for (i in 2:20) {
 ### plotting 
 plot_animated_individual_map(myDF)
 
-
+plot_self_thinning_figures(myDF)
 
 
 
