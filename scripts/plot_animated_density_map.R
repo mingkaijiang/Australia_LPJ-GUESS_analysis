@@ -37,7 +37,7 @@ plot_animated_density_map <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TeNE.gif", animation=last_animation(), path="output/")
+    anim_save("animated_map_density_TeNE.gif", animation=last_animation(), path="output/basic/")
     
     
     ### TeBS
@@ -68,7 +68,7 @@ plot_animated_density_map <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TeBS.gif", animation=last_animation(), path="output/")
+    anim_save("animated_map_density_TeBS.gif", animation=last_animation(), path="output/basic/")
     
     
     ### IBS
@@ -99,7 +99,7 @@ plot_animated_density_map <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_IBS.gif", animation=last_animation(), path="output/")
+    anim_save("animated_map_density_IBS.gif", animation=last_animation(), path="output/basic/")
     
     
     
@@ -131,7 +131,7 @@ plot_animated_density_map <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TeBE.gif", animation=last_animation(), path="output/")
+    anim_save("animated_map_density_TeBE.gif", animation=last_animation(), path="output/basic/")
     
     
     ### TrBE
@@ -162,7 +162,7 @@ plot_animated_density_map <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TrBE.gif", animation=last_animation(), path="output/")
+    anim_save("animated_map_density_TrBE.gif", animation=last_animation(), path="output/basic/")
     
     
     ### TrIBE
@@ -193,7 +193,7 @@ plot_animated_density_map <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TrIBE.gif", animation=last_animation(), path="output/")
+    anim_save("animated_map_density_TrIBE.gif", animation=last_animation(), path="output/basic/")
     
     ### TrBR
     p1 <- ggplot() + 
@@ -223,7 +223,7 @@ plot_animated_density_map <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TrBR.gif", animation=last_animation(), path="output/")
+    anim_save("animated_map_density_TrBR.gif", animation=last_animation(), path="output/basic/")
     
    
     ### Total
@@ -254,7 +254,7 @@ plot_animated_density_map <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_C4G.gif", animation=last_animation(), path="output/")
+    anim_save("animated_map_density_C4G.gif", animation=last_animation(), path="output/basic/")
     #
     
 }

@@ -3,6 +3,10 @@ if(!dir.exists("output")) {
     dir.create("output", showWarnings = FALSE)
 }
 
+if(!dir.exists("output/basic")) {
+    dir.create("output/basic", showWarnings = FALSE)
+}
+
 if(!dir.exists("output/dgvm")) {
     dir.create("output/dgvm", showWarnings = FALSE)
 }

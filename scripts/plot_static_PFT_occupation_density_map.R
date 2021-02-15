@@ -45,7 +45,7 @@ plot_static_PFT_occupation_density_map <- function(myDF) {
     }
     
     ## pdf
-    pdf(paste0("output/PFT_TeNE_occupation_density_map.pdf"))
+    pdf(paste0("output/basic/PFT_TeNE_occupation_density_map.pdf"))
     plot(p1)
     dev.off()
     
@@ -88,7 +88,7 @@ plot_static_PFT_occupation_density_map <- function(myDF) {
     }
     
     ## pdf
-    pdf(paste0("output/PFT_TeBS_occupation_density_map.pdf"))
+    pdf(paste0("output/basic/PFT_TeBS_occupation_density_map.pdf"))
     plot(p2)
     dev.off()
     
@@ -130,7 +130,7 @@ plot_static_PFT_occupation_density_map <- function(myDF) {
     }
     
     ## pdf
-    pdf(paste0("output/PFT_IBS_occupation_density_map.pdf"))
+    pdf(paste0("output/basic/PFT_IBS_occupation_density_map.pdf"))
     plot(p3)
     dev.off()
     
@@ -172,7 +172,7 @@ plot_static_PFT_occupation_density_map <- function(myDF) {
     }
     
     ## pdf
-    pdf(paste0("output/PFT_TeBE_occupation_density_map.pdf"))
+    pdf(paste0("output/basic/PFT_TeBE_occupation_density_map.pdf"))
     plot(p4)
     dev.off()
     
@@ -214,7 +214,7 @@ plot_static_PFT_occupation_density_map <- function(myDF) {
     }
     
     ## pdf
-    pdf(paste0("output/PFT_TrBE_occupation_density_map.pdf"))
+    pdf(paste0("output/basic/PFT_TrBE_occupation_density_map.pdf"))
     plot(p5)
     dev.off()
     
@@ -256,7 +256,7 @@ plot_static_PFT_occupation_density_map <- function(myDF) {
     }
     
     ## pdf
-    pdf(paste0("output/PFT_TrIBE_occupation_density_map.pdf"))
+    pdf(paste0("output/basic/PFT_TrIBE_occupation_density_map.pdf"))
     plot(p6)
     dev.off()
     
@@ -298,7 +298,7 @@ plot_static_PFT_occupation_density_map <- function(myDF) {
     }
     
     ## pdf
-    pdf(paste0("output/PFT_TrBR_occupation_density_map.pdf"))
+    pdf(paste0("output/basic/PFT_TrBR_occupation_density_map.pdf"))
     plot(p7)
     dev.off()
     
@@ -340,7 +340,7 @@ plot_static_PFT_occupation_density_map <- function(myDF) {
     }
     
     ## pdf
-    pdf(paste0("output/PFT_C3G_occupation_density_map.pdf"))
+    pdf(paste0("output/basic/PFT_C3G_occupation_density_map.pdf"))
     plot(p8)
     dev.off()
     
@@ -382,7 +382,7 @@ plot_static_PFT_occupation_density_map <- function(myDF) {
     }
     
     ## pdf
-    pdf(paste0("output/PFT_C4G_occupation_density_map.pdf"))
+    pdf(paste0("output/basic/PFT_C4G_occupation_density_map.pdf"))
     plot(p9)
     dev.off()
     

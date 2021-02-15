@@ -37,7 +37,7 @@ plot_animated_LAI_latitudinal_gradient <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_latitudinal_TeNE.gif", animation=last_animation(), path="output/")
+    anim_save("animated_latitudinal_TeNE.gif", animation=last_animation(), path="output/basic/")
     
     
     ### plot TeBS
@@ -67,7 +67,7 @@ plot_animated_LAI_latitudinal_gradient <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_latitudinal_TeBS.gif", animation=last_animation(), path="output/")
+    anim_save("animated_latitudinal_TeBS.gif", animation=last_animation(), path="output/basic/")
     
     
     ### plot IBS
@@ -97,7 +97,7 @@ plot_animated_LAI_latitudinal_gradient <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_latitudinal_IBS.gif", animation=last_animation(), path="output/")
+    anim_save("animated_latitudinal_IBS.gif", animation=last_animation(), path="output/basic/")
     
     
     ### plot TeBE
@@ -127,7 +127,7 @@ plot_animated_LAI_latitudinal_gradient <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_latitudinal_TeBE.gif", animation=last_animation(), path="output/")
+    anim_save("animated_latitudinal_TeBE.gif", animation=last_animation(), path="output/basic/")
     
     
     
@@ -158,7 +158,7 @@ plot_animated_LAI_latitudinal_gradient <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_latitudinal_TrBE.gif", animation=last_animation(), path="output/")
+    anim_save("animated_latitudinal_TrBE.gif", animation=last_animation(), path="output/basic/")
     
     
     
@@ -189,7 +189,7 @@ plot_animated_LAI_latitudinal_gradient <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_latitudinal_TrIBE.gif", animation=last_animation(), path="output/")
+    anim_save("animated_latitudinal_TrIBE.gif", animation=last_animation(), path="output/basic/")
     
     
     ### plot TrBR
@@ -219,7 +219,7 @@ plot_animated_LAI_latitudinal_gradient <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_latitudinal_TrBR.gif", animation=last_animation(), path="output/")
+    anim_save("animated_latitudinal_TrBR.gif", animation=last_animation(), path="output/basic/")
     
     
     ### plot C3G
@@ -249,7 +249,7 @@ plot_animated_LAI_latitudinal_gradient <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_latitudinal_C3G.gif", animation=last_animation(), path="output/")
+    anim_save("animated_latitudinal_C3G.gif", animation=last_animation(), path="output/basic/")
     
     
     
@@ -280,6 +280,6 @@ plot_animated_LAI_latitudinal_gradient <- function(myDF) {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_latitudinal_C4G.gif", animation=last_animation(), path="output/")
+    anim_save("animated_latitudinal_C4G.gif", animation=last_animation(), path="output/basic/")
     
 }

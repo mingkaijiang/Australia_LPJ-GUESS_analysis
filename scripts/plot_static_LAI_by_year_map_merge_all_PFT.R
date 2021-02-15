@@ -345,7 +345,7 @@ plot_static_LAI_by_year_map_merge_all_PFT <- function(myDF) {
                               ncol=1, rel_heights=c(1, 1))
         #grDevices::dev.off() 
         
-        save_plot(paste0("output/LAI_", i, ".pdf"),
+        save_plot(paste0("output/basic/LAI_", i, ".pdf"),
                   out_plot, base_width=4)
         
         

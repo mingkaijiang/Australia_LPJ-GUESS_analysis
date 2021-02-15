@@ -22,10 +22,10 @@ plot_animated_individual_map <- function(myDF) {
         shadow_wake(wake_length = 0.1, alpha = FALSE)+
         scale_color_manual(name="PFT", 
                            values=col.list,
-                           labels=c("1"="BNE","2"="BINE","3"="BNS", 
-                                    "4"="TeNE","5"="TeBS","6"="IBS",
-                                    "7"="TeBE","8"="TrBE","9"="TrIBE", 
-                                    "10"="TrBR","11"="C3G","12"="C4G"))+
+                           labels=c("0"="BNE","1"="BINE","2"="BNS", 
+                                    "3"="TeNE","4"="TeBS","5"="IBS",
+                                    "6"="TeBE","7"="TrBE","8"="TrIBE", 
+                                    "9"="TrBR","10"="C3G","11"="C4G"))+
         xlab("Patch age")
     
     ## save animation
@@ -33,7 +33,8 @@ plot_animated_individual_map <- function(myDF) {
     anim_save("animated_density_patch_age.gif", animation=last_animation(), path="output/dgvm/")
     
     
-    p1 <- ggplot(myDF,aes(x=Page, color=as.factor(PFT))) +
+    #### Plot individual age, separated by PFT and year
+    p1 <- ggplot(myDF,aes(x=Iage, color=as.factor(PFT))) +
         geom_density()+
         theme_linedraw() +
         theme(panel.grid.minor=element_blank(),
@@ -51,15 +52,15 @@ plot_animated_individual_map <- function(myDF) {
         shadow_wake(wake_length = 0.1, alpha = FALSE)+
         scale_color_manual(name="PFT", 
                            values=col.list,
-                           labels=c("1"="BNE","2"="BINE","3"="BNS", 
-                                    "4"="TeNE","5"="TeBS","6"="IBS",
-                                    "7"="TeBE","8"="TrBE","9"="TrIBE", 
-                                    "10"="TrBR","11"="C3G","12"="C4G"))+
-        xlab("Patch age")
+                           labels=c("0"="BNE","1"="BINE","2"="BNS", 
+                                    "3"="TeNE","4"="TeBS","5"="IBS",
+                                    "6"="TeBE","7"="TrBE","8"="TrIBE", 
+                                    "9"="TrBR","10"="C3G","11"="C4G"))+
+        xlab("Individual age")
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_density_patch_age.gif", animation=last_animation(), path="output/dgvm")
+    anim_save("animated_density_individual_age.gif", animation=last_animation(), path="output/dgvm")
     
     
     ### how does each individual evolve within each grid over time
