@@ -1,14 +1,163 @@
 track_establishment_patterns <- function(myDF) {
     
+    ### track establishment of each individual
+    
+    myDF$StemC <- myDF$SapC + myDF$HeartC
+
+    ### check on TeBE
+    subDF <- myDF[myDF$PFT=="9",]
+    
+    ### check patch age and individual age relationship
+    p1 <- ggplot(subDF) +
+        geom_point(aes(Iage, LAI_indiv), col=alpha("brown", alpha=0.3))+
+        geom_smooth(aes(Iage, LAI_indiv),col="black",
+                    span = 0.3)+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="right",
+              legend.text.align=0)+
+        xlab("Individual Age")+
+        ylab("Individual LAI")
     
     
-    ### track mortality patch/individual
-    ### if the patch/individual no longer present in the next year,
-    ### then it is dead in the current year
-    ### Generate a table summarizing the mortality events
-    ### and corresponds to climate extremes
+    p2 <- ggplot(subDF) +
+        geom_point(aes(Iage, FPC), col=alpha("blue", alpha=0.3))+
+        geom_smooth(aes(Iage, FPC),col="black",
+                    span = 0.3)+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="right",
+              legend.text.align=0)+
+        xlab("Individual Age")+
+        ylab("FPC")+
+        ylim(0,1)
     
     
+    p3 <- ggplot(subDF) +
+        geom_point(aes(Iage, StemC), col=alpha("orange", alpha=0.3))+
+        geom_smooth(aes(Iage, StemC),col="black",
+                    span = 0.3)+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="right",
+              legend.text.align=0)+
+        xlab("Individual Age")+
+        ylab("StemC")
+    
+    ### plot
+    combined_plot <- plot_grid(p1, p2, p3,
+                               ncol=3, align="vh", axis = "l")
+    
+    save_plot(paste0("output/establishment/basic_TeBE_summary.pdf"),
+              combined_plot, base_width=10)
+    
+    
+    ### check on TeBE
+    subDF <- myDF[myDF$PFT%in%c(0,1,2,3,4,5,6,7,8,9)&myDF$Iage==0,]
+    
+    subDF$PFTC <- as.character(subDF$PFT)
+    
+    sumDF <- summaryBy(LAI_indiv+FPC+StemC~PFT, data=subDF, FUN=c(mean,se),
+                       keep.names=T)
+    
+    ### plot bar chart of establishment year
+    p1 <- ggplot(subDF, aes(PFT, LAI_indiv, fill=PFTC)) +
+        #geom_point()+
+        geom_boxplot(notch=T)+
+        #geom_jitter(width = 0.2)+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="none",
+              legend.text.align=0)+
+        xlab("PFT")+
+        ylab("Individual LAI at establishment")+
+        scale_x_discrete(limits=c("0"="BNE","1"="BINE","2"="BNS", 
+                                  "3"="TeNE","4"="TeBS","5"="IBS",
+                                  "6"="TeBE","7"="TrBE","8"="TrIBE", 
+                                  "9"="TrBR"))
+    
+    
+    p2 <- ggplot(subDF, aes(PFT, FPC, fill=PFTC)) +
+        #geom_point()+
+        geom_boxplot(notch=T)+
+        #geom_jitter(width = 0.2)+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="none",
+              legend.text.align=0)+
+        xlab("PFT")+
+        ylab("Individual FPC at establishment")+
+        scale_x_discrete(limits=c("0"="BNE","1"="BINE","2"="BNS", 
+                                  "3"="TeNE","4"="TeBS","5"="IBS",
+                                  "6"="TeBE","7"="TrBE","8"="TrIBE", 
+                                  "9"="TrBR"))+
+        ylim(c(0,1))
+    
+    
+    p3 <- ggplot(subDF, aes(PFT, StemC, fill=PFTC)) +
+        #geom_point()+
+        geom_boxplot(notch=T)+
+        #geom_jitter(width = 0.2)+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="none",
+              legend.text.align=0)+
+        xlab("PFT")+
+        ylab("Individual Stem C at establishment")+
+        scale_x_discrete(limits=c("0"="BNE","1"="BINE","2"="BNS", 
+                                  "3"="TeNE","4"="TeBS","5"="IBS",
+                                  "6"="TeBE","7"="TrBE","8"="TrIBE", 
+                                  "9"="TrBR"))+
+        ylim(c(0,1))
+    
+    ### plot
+    combined_plot <- plot_grid(p1, p2, p3,
+                               ncol=1, align="vh", axis = "l")
+    
+    save_plot(paste0("output/establishment/establishment_summary.pdf"),
+              combined_plot, base_width=8, base_height = 8)
     
     
 }

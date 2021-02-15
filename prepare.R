@@ -13,15 +13,28 @@ if(!dir.exists("output/basic")) {
     dir.create("output/basic", showWarnings = FALSE)
 }
 
-### individual-level animation plot 
+### individual-level animation/static plot 
 if(!dir.exists("output/dgvm")) {
     dir.create("output/dgvm", showWarnings = FALSE)
 }
 
-### individual-level animation plot 
+
+### individual-level mortality plot 
+if(!dir.exists("output/mortality")) {
+    dir.create("output/mortality", showWarnings = FALSE)
+}
+
+### individual-level establishment plot 
+if(!dir.exists("output/establishment")) {
+    dir.create("output/establishment", showWarnings = FALSE)
+}
+
+
+### individual-level self-thinning plot 
 if(!dir.exists("output/self-thinning")) {
     dir.create("output/self-thinning", showWarnings = FALSE)
 }
+
 
 #### Install packages
 if(!require(pacman))install.packages("pacman")
