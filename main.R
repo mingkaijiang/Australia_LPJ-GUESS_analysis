@@ -67,11 +67,11 @@ for (i in 2:20) {
 ### plotting 
 plot_animated_individual_map(myDF)
 
+track_mortality_events(myDF)
+
+track_establishment_patterns(myDF)
+
 plot_self_thinning_figures(myDF)
-
-
-
-
 
 
 

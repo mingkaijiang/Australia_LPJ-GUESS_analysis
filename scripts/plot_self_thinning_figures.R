@@ -90,4 +90,7 @@ plot_self_thinning_figures <- function(myDF) {
     plot(p1)
     dev.off()
     
+    
+    
+    
 }
