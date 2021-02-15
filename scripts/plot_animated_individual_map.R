@@ -63,17 +63,95 @@ plot_animated_individual_map <- function(myDF) {
     anim_save("animated_density_individual_age.gif", animation=last_animation(), path="output/dgvm")
     
     
+    ### Look at a selected list of PFTs
+    ### "3"="TeNE","4"="TeBS","5"="IBS",
+    ### "6"="TeBE","7"="TrBE","8"="TrIBE", 
+    ### "9"="TrBR"
+    tDF <- data.frame(c(3,4,5,6,7,8,9),
+                      c("TeNE", "TeBS", "IBS",
+                        "TeBE", "TrBE", "TrIBE",
+                        "TrBR"))
+    colnames(tDF) <- c("ID", "PFT")
+    
+    d <- dim(tDF)[1]
+    
+    ### loop
+    for (i in 1:d) {
+        ### subset
+        test <- subset(myDF, PFT == tDF$ID[i])
+        
+        ### min and max 
+        min.Iage <- min(test$Iage)
+        max.Iage <- max(test$Iage)
+        
+        min.Page <- min(test$Page)
+        max.Page <- max(test$Page)
+        
+        ### plot
+        p1 <- ggplot(test,aes(x=Iage)) +
+            geom_density()+
+            theme_linedraw() +
+            theme(panel.grid.minor=element_blank(),
+                  axis.title.x = element_text(size=12), 
+                  axis.text.x = element_text(size=12),
+                  axis.text.y=element_text(size=12),
+                  axis.title.y=element_text(size=12),
+                  legend.text=element_text(size=6),
+                  legend.title=element_text(size=12),
+                  panel.grid.major=element_blank(),
+                  legend.position="bottom",
+                  legend.text.align=0)+
+            transition_time(Year)+
+            labs(title = "Year: {frame_time}")+
+            shadow_wake(wake_length = 0.1, alpha = FALSE)+
+            xlab(paste0(tDF$PFT[i], " Individual Age"))+
+            xlim(c(min.Iage, max.Iage))
+        
+        ## save animation
+        animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+        anim_save(paste0("animated_density_individual_age_", tDF$PFT[i], ".gif"), 
+                  animation=last_animation(), path="output/dgvm")
+        
+        ### plot
+        p2 <- ggplot(test,aes(x=Page)) +
+            geom_density()+
+            theme_linedraw() +
+            theme(panel.grid.minor=element_blank(),
+                  axis.title.x = element_text(size=12), 
+                  axis.text.x = element_text(size=12),
+                  axis.text.y=element_text(size=12),
+                  axis.title.y=element_text(size=12),
+                  legend.text=element_text(size=6),
+                  legend.title=element_text(size=12),
+                  panel.grid.major=element_blank(),
+                  legend.position="bottom",
+                  legend.text.align=0)+
+            transition_time(Year)+
+            labs(title = "Year: {frame_time}")+
+            shadow_wake(wake_length = 0.1, alpha = FALSE)+
+            xlab(paste0(tDF$PFT[i], " Patch Age"))+
+            xlim(c(min.Page, max.Page))
+        
+        ## save animation
+        animate(p2, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+        anim_save(paste0("animated_density_patch_age_", tDF$PFT[i], ".gif"), 
+                  animation=last_animation(), path="output/dgvm")
+    }
+    
+    
+    
     ### how does each individual evolve within each grid over time
     test <- subset(myDF, Lon == 150.25 && Lat == -34.25)
     
-    ### averaging all individual for each year
-    sumDF <- summaryBy(Iage+FPC~Year+PFT, FUN=c(mean, sd), data=test, keep.names=T, na.rm=T)
-    
     ### plot
     p1 <- ggplot(test) +
-        geom_point(aes(Iage, FPC, col=Year, fill=Year))+
-        scale_fill_continuous(type = "viridis")+
-        scale_color_continuous(type = "viridis")+
+        geom_point(aes(Iage, FPC, color=as.factor(PFT)))+
+        scale_color_manual(name="PFT", 
+                           values=col.list,
+                           labels=c("0"="BNE","1"="BINE","2"="BNS", 
+                                    "3"="TeNE","4"="TeBS","5"="IBS",
+                                    "6"="TeBE","7"="TrBE","8"="TrIBE", 
+                                    "9"="TrBR","10"="C3G","11"="C4G"))+
         theme_linedraw() +
         theme(panel.grid.minor=element_blank(),
               axis.title.x = element_text(size=12), 
@@ -85,9 +163,26 @@ plot_animated_individual_map <- function(myDF) {
               panel.grid.major=element_blank(),
               legend.position="bottom",
               legend.text.align=0)+
-        ylim(c(0,1))
+        ylim(c(0,1))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)+
+        xlab("Individual Age")
     
-    plot(p1)
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_individual_age_vs_fpc_single_grid.gif"), 
+              animation=last_animation(), path="output/dgvm")
+    
+    
+    
+    
+    
+    
+    ### averaging all individual for each year
+    sumDF <- summaryBy(Iage+FPC~Year+PFT, FUN=c(mean, sd), data=test, keep.names=T, na.rm=T)
+    
+    
     
     ### to start with, just look at PDF of patch age within each year for all grids
     for (i in 2005:2015) {
@@ -142,262 +237,8 @@ plot_animated_individual_map <- function(myDF) {
     
     
     
-    ### conver 0 to NAs
-    inDF <- myDF
-    inDF[inDF == 0] <- NA
-    
-    ## set lim of color in log scale
-    min.lim <- min(inDF$Total, na.rm=T)
-    max.lim <- max(inDF$Total, na.rm=T)
-    
-    ### Plot animated maps
-    ### TeNE
-    p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=TeNE)) +
-        coord_quickmap(xlim=range(myDF$Lon), ylim=range(myDF$Lat))+
-        borders("world", col="grey", lwd=0.2) +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_blank(),
-              axis.title.x=element_blank(),
-              axis.text.y=element_blank(),
-              axis.title.y=element_blank(),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.position = "right")+
-        scale_fill_continuous(name="density TeNE",
-                              na.value = 'white',
-                              type = "viridis",
-                              limits = c(min.lim,max.lim),
-                              breaks = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9),
-                              labels = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9))+
-        transition_time(Year)+
-        labs(title = "Year: {frame_time}")+
-        shadow_wake(wake_length = 0.1, alpha = FALSE)
-    
-    ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TeNE.gif", animation=last_animation(), path="output/")
-    
-    
-    ### TeBS
-    p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=TeBS)) +
-        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
-        borders("world", col="grey", lwd=0.2) +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_blank(),
-              axis.title.x=element_blank(),
-              axis.text.y=element_blank(),
-              axis.title.y=element_blank(),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.position = "right")+
-        scale_fill_continuous(name="density TeBS",
-                              na.value = 'white',
-                              type = "viridis",
-                              limits = c(min.lim,max.lim),
-                              breaks = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9),
-                              labels = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9))+
-        transition_time(Year)+
-        labs(title = "Year: {frame_time}")+
-        shadow_wake(wake_length = 0.1, alpha = FALSE)
-    
-    ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TeBS.gif", animation=last_animation(), path="output/")
-    
-    
-    ### IBS
-    p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=IBS)) +
-        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
-        borders("world", col="grey", lwd=0.2) +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_blank(),
-              axis.title.x=element_blank(),
-              axis.text.y=element_blank(),
-              axis.title.y=element_blank(),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.position = "right")+
-        scale_fill_continuous(name="density IBS",
-                              na.value = 'white',
-                              type = "viridis",
-                              limits = c(min.lim,max.lim),
-                              breaks = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9),
-                              labels = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9))+
-        transition_time(Year)+
-        labs(title = "Year: {frame_time}")+
-        shadow_wake(wake_length = 0.1, alpha = FALSE)
-    
-    ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_IBS.gif", animation=last_animation(), path="output/")
-    
-    
-    
-    ### TeBE
-    p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=TeBE)) +
-        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
-        borders("world", col="grey", lwd=0.2) +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_blank(),
-              axis.title.x=element_blank(),
-              axis.text.y=element_blank(),
-              axis.title.y=element_blank(),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.position = "right")+
-        scale_fill_continuous(name="density TeBE",
-                              na.value = 'white',
-                              type = "viridis",
-                              limits = c(min.lim,max.lim),
-                              breaks = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9),
-                              labels = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9))+
-        transition_time(Year)+
-        labs(title = "Year: {frame_time}")+
-        shadow_wake(wake_length = 0.1, alpha = FALSE)
-    
-    ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TeBE.gif", animation=last_animation(), path="output/")
-    
-    
-    ### TrBE
-    p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=TrBE)) +
-        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
-        borders("world", col="grey", lwd=0.2) +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_blank(),
-              axis.title.x=element_blank(),
-              axis.text.y=element_blank(),
-              axis.title.y=element_blank(),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.position = "right")+
-        scale_fill_continuous(name="density TrBE",
-                              na.value = 'white',
-                              type = "viridis",
-                              limits = c(min.lim,max.lim),
-                              breaks = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9),
-                              labels = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9))+
-        transition_time(Year)+
-        labs(title = "Year: {frame_time}")+
-        shadow_wake(wake_length = 0.1, alpha = FALSE)
-    
-    ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TrBE.gif", animation=last_animation(), path="output/")
-    
-    
-    ### TrIBE
-    p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=TrIBE)) +
-        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
-        borders("world", col="grey", lwd=0.2) +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_blank(),
-              axis.title.x=element_blank(),
-              axis.text.y=element_blank(),
-              axis.title.y=element_blank(),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.position = "right")+
-        scale_fill_continuous(name="density TrIBE",
-                              na.value = 'white',
-                              type = "viridis",
-                              limits = c(min.lim,max.lim),
-                              breaks = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9),
-                              labels = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9))+
-        transition_time(Year)+
-        labs(title = "Year: {frame_time}")+
-        shadow_wake(wake_length = 0.1, alpha = FALSE)
-    
-    ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TrIBE.gif", animation=last_animation(), path="output/")
-    
-    ### TrBR
-    p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=TrBR)) +
-        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
-        borders("world", col="grey", lwd=0.2) +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_blank(),
-              axis.title.x=element_blank(),
-              axis.text.y=element_blank(),
-              axis.title.y=element_blank(),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.position = "right")+
-        scale_fill_continuous(name="density TrBR",
-                              na.value = 'white',
-                              type = "viridis",
-                              limits = c(min.lim,max.lim),
-                              breaks = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9),
-                              labels = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9))+
-        transition_time(Year)+
-        labs(title = "Year: {frame_time}")+
-        shadow_wake(wake_length = 0.1, alpha = FALSE)
-    
-    ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_TrBR.gif", animation=last_animation(), path="output/")
-    
-   
-    ### Total
-    p1 <- ggplot() + 
-        geom_tile(data=inDF, aes(y=Lat, x=Lon, fill=Total)) +
-        coord_quickmap(xlim=range(inDF$Lon), ylim=range(inDF$Lat))+
-        borders("world", col="grey", lwd=0.2) +
-        theme(panel.grid.minor=element_blank(),
-              axis.text.x=element_blank(),
-              axis.title.x=element_blank(),
-              axis.text.y=element_blank(),
-              axis.title.y=element_blank(),
-              legend.text=element_text(size=10),
-              legend.title=element_text(size=12),
-              panel.grid.major=element_blank(),
-              legend.position = "right")+
-        scale_fill_continuous(name="density Total",
-                              na.value = 'white',
-                              type = "viridis",
-                              limits = c(min.lim,max.lim),
-                              breaks = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9),
-                              labels = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1,
-                                         1.3, 1.5, 1.7, 1.9))+
-        transition_time(Year)+
-        labs(title = "Year: {frame_time}")+
-        shadow_wake(wake_length = 0.1, alpha = FALSE)
-    
-    ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_density_C4G.gif", animation=last_animation(), path="output/")
-    #
-    
-    }
+        
+}
+
+
     
