@@ -6,6 +6,13 @@ track_mortality_events <- function(myDF) {
     ### Generate a table summarizing the mortality events
     ### and corresponds to climate extremes
     
+    ### sum all stem C
+    myDF$StemC <- myDF$SapC + myDF$HeartC
+    
+    ### extract individual ID
+    indiv.id <- unique(myDF$Indiv)
+    
+    test2 <- subset(myDF, Indiv==756)
     
     
 }

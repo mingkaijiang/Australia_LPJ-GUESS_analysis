@@ -73,7 +73,7 @@ track_establishment_patterns <- function(myDF) {
               combined_plot, base_width=10)
     
     
-    ### check on TeBE
+    ### check on all
     subDF <- myDF[myDF$PFT%in%c(0,1,2,3,4,5,6,7,8,9)&myDF$Iage==0,]
     
     subDF$PFTC <- as.character(subDF$PFT)
