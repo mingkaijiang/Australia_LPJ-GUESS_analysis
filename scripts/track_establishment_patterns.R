@@ -160,4 +160,12 @@ track_establishment_patterns <- function(myDF) {
               combined_plot, base_width=8, base_height = 8)
     
     
+    ### comment:
+    ### it seems that establishment is high in year 0,
+    ### reflected via high LAI and FPC.
+    ### So there isn't necessarily a gap in the patch for future growth;
+    ### Next, need to check stem density, FPC and LAI relationship within each patch. 
+    
+    
+    
 }
