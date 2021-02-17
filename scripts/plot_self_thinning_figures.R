@@ -8,28 +8,27 @@ plot_self_thinning_figures <- function(myDF, patcharea) {
     ### calculate sum of wood
     subDF$StemC <- subDF$SapC + subDF$HeartC
     
+    ### calculate proxy for diameter - PD
+    subDF$PD <- 1.0 / subDF$Idens
+    
     ### sum biomass and density within each patch
-    sumDF <- summaryBy(StemC+Idens~ID+Lon+Lat+Year+Patch+Page+PFT, 
+    sumDF <- summaryBy(StemC+Idens+PD~ID+Lon+Lat+Year+Patch+Page+PFT, 
                        FUN=sum, data=subDF, 
                        keep.names=T, na.rm=T)
-    
-    summary(sumDF$Idens)
     
     ### color labels
     col.list <- brewer.pal(12, name="Paired")
     
-    ### plot each PFT
-    plotDF1 <- sumDF[sumDF$PFT == 6, ]
+    ### prepare arrow plot - check 10-yr difference
+    subDF1 <- subset(subDF, Year == 2005)
+    subDF2 <- subset(subDF, Year == 2015)
+    mgDF <- merge(subDF1, subDF2, by = c("Lon", "Lat", "Patch", "PFT", "Indiv"), all=T)
     
     ### 
-    p1 <- ggplot(sumDF) +
-        geom_point(aes(Idens, StemC))+
-        #scale_color_manual(name="PFT", 
-        #                   values=col.list,
-        #                   labels=c("0"="BNE","1"="BINE","2"="BNS", 
-        #                            "3"="TeNE","4"="TeBS","5"="IBS",
-        #                            "6"="TeBE","7"="TrBE","8"="TrIBE", 
-        #                            "9"="TrBR"))+
+    p1 <- ggplot() +
+        geom_point(subDF, mapping = aes(PD, StemC, col=Iage))+
+        geom_segment(mgDF, mapping = aes(x = PD.x, y = StemC.x, xend = PD.y, yend = StemC.y, col=Iage.y),
+                     arrow = arrow(length = unit(0.3, "cm")))+
         theme_linedraw() +
         theme(panel.grid.minor=element_blank(),
               axis.title.x = element_text(size=12), 
@@ -41,17 +40,14 @@ plot_self_thinning_figures <- function(myDF, patcharea) {
               panel.grid.major=element_blank(),
               legend.position="right",
               legend.text.align=0)+
-        xlab("Patch stem density (indiv/patch)")+
+        xlab("Proxy for tree diameter (1 / density)")+
         ylab("Stem C")
     
     plot(p1)
     
     
-    ### read in density dataset
-    densDF <- read.table("input/run1/dens.out", header=T)
-    
     ### save pdf
-    pdf("output/self-thinning/trees_age_comparison.pdf", width = 6, height = 4)
+    pdf("output/self-thinning/diameter_vs_stemC_all_trees.pdf", width = 6, height = 4)
     plot(p1)
     dev.off()
     
