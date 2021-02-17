@@ -168,14 +168,59 @@ track_mortality_events <- function(myDF) {
                                   "3"="TeNE","4"="TeBS","5"="IBS",
                                   "6"="TeBE","7"="TrBE","8"="TrIBE", 
                                   "9"="TrBR"))
+    
+    
+    p7 <- ggplot(plotDF, aes(PFT, Iht, fill=PFTC)) +
+        geom_boxplot(notch=T)+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="none",
+              legend.text.align=0)+
+        xlab("PFT")+
+        ylab("Individual height")+
+        scale_x_discrete(limits=c("0"="BNE","1"="BINE","2"="BNS", 
+                                  "3"="TeNE","4"="TeBS","5"="IBS",
+                                  "6"="TeBE","7"="TrBE","8"="TrIBE", 
+                                  "9"="TrBR"))
+    
+    
+    p8 <- ggplot(plotDF, aes(x=Iht, y = StemC, color=as.factor(PFT))) +
+        geom_point()+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="bottom",
+              legend.text.align=0)+
+        scale_color_manual(name="PFT", 
+                           values=col.list,
+                           labels=c("0"="BNE","1"="BINE","2"="BNS", 
+                                    "3"="TeNE","4"="TeBS","5"="IBS",
+                                    "6"="TeBE","7"="TrBE","8"="TrIBE", 
+                                    "9"="TrBR","10"="C3G","11"="C4G"))+
+        xlab("Individual height") +
+        ylab("Individual StemC")
         
+    plot(p8)
     
     ### plot
-    combined_plot <- plot_grid(p1, p2, p3, p4, p5, p6, 
+    combined_plot <- plot_grid(p1, p2, p3, p4, p5, p6, p7, p8,
                                ncol=2, align="vh", axis = "l")
     
     save_plot(paste0("output/mortality/mortality_summary.pdf"),
-              combined_plot, base_width=10, base_height = 12)
+              combined_plot, base_width=10, base_height = 16)
     
     
     

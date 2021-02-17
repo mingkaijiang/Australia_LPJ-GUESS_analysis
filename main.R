@@ -71,7 +71,7 @@ track_establishment_patterns(myDF)
 
 track_mortality_events(myDF)
 
-plot_self_thinning_figures(myDF)
+plot_self_thinning_figures(myDF, patcharea = 1000)
 
 
 

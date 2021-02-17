@@ -96,7 +96,7 @@ track_establishment_patterns <- function(myDF) {
               panel.grid.major=element_blank(),
               legend.position="right",
               legend.text.align=0)+
-        xlab("Individual density")+
+        xlab("Individual density  (indiv/m2)")+
         ylab("Individual LAI")
     
     ### plot

@@ -23,7 +23,7 @@ plot_animated_density_map <- function(myDF) {
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
               legend.position = "right")+
-        scale_fill_continuous(name="density TeNE",
+        scale_fill_continuous(name="density TeNE (indiv/m2)",
                               na.value = 'white',
                               type = "viridis",
                               limits = c(min.lim,max.lim),
@@ -54,7 +54,7 @@ plot_animated_density_map <- function(myDF) {
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
               legend.position = "right")+
-        scale_fill_continuous(name="density TeBS",
+        scale_fill_continuous(name="density TeBS (indiv/m2)",
                               na.value = 'white',
                               type = "viridis",
                               limits = c(min.lim,max.lim),
@@ -85,7 +85,7 @@ plot_animated_density_map <- function(myDF) {
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
               legend.position = "right")+
-        scale_fill_continuous(name="density IBS",
+        scale_fill_continuous(name="density IBS (indiv/m2)",
                               na.value = 'white',
                               type = "viridis",
                               limits = c(min.lim,max.lim),
@@ -117,7 +117,7 @@ plot_animated_density_map <- function(myDF) {
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
               legend.position = "right")+
-        scale_fill_continuous(name="density TeBE",
+        scale_fill_continuous(name="density TeBE (indiv/m2)",
                               na.value = 'white',
                               type = "viridis",
                               limits = c(min.lim,max.lim),
@@ -148,7 +148,7 @@ plot_animated_density_map <- function(myDF) {
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
               legend.position = "right")+
-        scale_fill_continuous(name="density TrBE",
+        scale_fill_continuous(name="density TrBE (indiv/m2)",
                               na.value = 'white',
                               type = "viridis",
                               limits = c(min.lim,max.lim),
@@ -179,7 +179,7 @@ plot_animated_density_map <- function(myDF) {
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
               legend.position = "right")+
-        scale_fill_continuous(name="density TrIBE",
+        scale_fill_continuous(name="density TrIBE (indiv/m2)",
                               na.value = 'white',
                               type = "viridis",
                               limits = c(min.lim,max.lim),
@@ -209,7 +209,7 @@ plot_animated_density_map <- function(myDF) {
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
               legend.position = "right")+
-        scale_fill_continuous(name="density TrBR",
+        scale_fill_continuous(name="density TrBR (indiv/m2)",
                               na.value = 'white',
                               type = "viridis",
                               limits = c(min.lim,max.lim),
@@ -240,7 +240,7 @@ plot_animated_density_map <- function(myDF) {
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
               legend.position = "right")+
-        scale_fill_continuous(name="density Total",
+        scale_fill_continuous(name="density Total (indiv/m2)",
                               na.value = 'white',
                               type = "viridis",
                               limits = c(min.lim,max.lim),
