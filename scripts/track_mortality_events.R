@@ -7,7 +7,11 @@ track_mortality_events <- function(myDF, delete_mortality_file) {
     ### and corresponds to climate extremes
     
     if (delete_mortality_file == T & file.exists("output/mortality/individual_mortality_table.csv")) {
+        
         file.remove("output/mortality/individual_mortality_table.csv")
+        
+        print("deleted mortality dataset ... ... ")
+        
     }
     
     ### sum all stem C
@@ -21,11 +25,13 @@ track_mortality_events <- function(myDF, delete_mortality_file) {
     
     if (!file.exists("output/mortality/individual_mortality_table.csv")) {
         
+        print("preparing mortality dataset ... ... ")
+        
         ### We now have a dataset in the year before individual plant disappears;
         ### this should be considered as mortality dataset.
         ### We can look at the year information first to see if there is any pattern.
         prepare_mortality_dataset(myDF) 
-        print("preparing mortality dataset ... ... ")
+        
     }
     
     ### read input
@@ -217,7 +223,6 @@ track_mortality_events <- function(myDF, delete_mortality_file) {
         xlab("Individual height") +
         ylab("Individual StemC")
         
-    plot(p8)
     
     ### plot
     combined_plot <- plot_grid(p1, p2, p3, p4, p5, p6, p7, p8,
@@ -225,6 +230,162 @@ track_mortality_events <- function(myDF, delete_mortality_file) {
     
     save_plot(paste0("output/mortality/mortality_summary.pdf"),
               combined_plot, base_width=10, base_height = 16)
+    
+    
+    
+    ### investigate age of death distribution
+    ### pft that are present in the mortality file
+    mort.pft <- unique(plotDF$PFT)
+    
+    ### subtract the pft from the entire dataset
+    allDF <- myDF[myDF$PFT%in%mort.pft,]
+    allDF$PFTC <- as.character(allDF$PFT)
+    
+    ### prepare the plotting DF
+    plotDF2 <- plotDF
+    plotDF2$ID <- NULL
+    plotDF2$Dataset <- "Mortality"
+    allDF$Dataset <- "All"
+    plotDF3 <- rbind(plotDF2, allDF)
+    
+    ### prepare the PFT DF
+    tDF <- data.frame(c(3,4,5,6,7,8,9),
+                      c("TeNE", "TeBS", "IBS",
+                        "TeBE", "TrBE", "TrIBE",
+                        "TrBR"))
+    colnames(tDF) <- c("ID", "PFT")
+    
+    ### plotting
+    for (i in mort.pft) {
+        p1 <- ggplot() +
+            geom_density(plotDF3[plotDF3$PFT==i,], mapping=aes(x=Iage, col=Dataset))+
+            theme_linedraw() +
+            theme(panel.grid.minor=element_blank(),
+                  axis.title.x = element_text(size=12), 
+                  axis.text.x = element_text(size=12),
+                  axis.text.y=element_text(size=12),
+                  axis.title.y=element_text(size=12),
+                  legend.text=element_text(size=10),
+                  legend.title=element_text(size=12),
+                  panel.grid.major=element_blank(),
+                  legend.position="bottom",
+                  legend.text.align=0)+
+            xlab("Individual age at mortality")+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+        
+        ## save animation
+        animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+        anim_save(paste0("animated_individual_age_at_mortality_", tDF[tDF$ID==i, "PFT"],
+                         ".gif"), animation=last_animation(), path="output/mortality/")
+        
+        ### patch age
+        p2 <- ggplot() +
+            geom_density(plotDF3[plotDF3$PFT==i,], mapping=aes(x=Page, col=Dataset))+
+            theme_linedraw() +
+            theme(panel.grid.minor=element_blank(),
+                  axis.title.x = element_text(size=12), 
+                  axis.text.x = element_text(size=12),
+                  axis.text.y=element_text(size=12),
+                  axis.title.y=element_text(size=12),
+                  legend.text=element_text(size=10),
+                  legend.title=element_text(size=12),
+                  panel.grid.major=element_blank(),
+                  legend.position="bottom",
+                  legend.text.align=0)+
+            xlab("Patch age at mortality")+
+            transition_time(Year)+
+            labs(title = "Year: {frame_time}")+
+            shadow_wake(wake_length = 0.1, alpha = FALSE)
+        
+        ## save animation
+        animate(p2, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+        anim_save(paste0("animated_patch_age_at_mortality_", tDF[tDF$ID==i, "PFT"],
+                         ".gif"), animation=last_animation(), path="output/mortality/")
+        
+        
+        ### FPC
+        p3 <- ggplot() +
+            geom_density(plotDF3[plotDF3$PFT==i,], mapping=aes(x=FPC, col=Dataset))+
+            theme_linedraw() +
+            theme(panel.grid.minor=element_blank(),
+                  axis.title.x = element_text(size=12), 
+                  axis.text.x = element_text(size=12),
+                  axis.text.y=element_text(size=12),
+                  axis.title.y=element_text(size=12),
+                  legend.text=element_text(size=10),
+                  legend.title=element_text(size=12),
+                  panel.grid.major=element_blank(),
+                  legend.position="bottom",
+                  legend.text.align=0)+
+            xlab("FPC at mortality")+
+            transition_time(Year)+
+            labs(title = "Year: {frame_time}")+
+            shadow_wake(wake_length = 0.1, alpha = FALSE)
+        
+        ## save animation
+        animate(p3, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+        anim_save(paste0("animated_FPC_at_mortality_", tDF[tDF$ID==i, "PFT"],
+                         ".gif"), animation=last_animation(), path="output/mortality/")
+        
+        
+        ### density
+        p4 <- ggplot() +
+            geom_density(plotDF3[plotDF3$PFT==i,], mapping=aes(x=Idens, col=Dataset))+
+            theme_linedraw() +
+            theme(panel.grid.minor=element_blank(),
+                  axis.title.x = element_text(size=12), 
+                  axis.text.x = element_text(size=12),
+                  axis.text.y=element_text(size=12),
+                  axis.title.y=element_text(size=12),
+                  legend.text=element_text(size=10),
+                  legend.title=element_text(size=12),
+                  panel.grid.major=element_blank(),
+                  legend.position="bottom",
+                  legend.text.align=0)+
+            xlab("Individual density (m-2) at mortality")+
+            transition_time(Year)+
+            labs(title = "Year: {frame_time}")+
+            shadow_wake(wake_length = 0.1, alpha = FALSE)
+        
+        ## save animation
+        animate(p4, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+        anim_save(paste0("animated_individual_density_at_mortality_", tDF[tDF$ID==i, "PFT"],
+                         ".gif"), animation=last_animation(), path="output/mortality/")
+        
+        
+        ### density
+        p5 <- ggplot() +
+            geom_density(plotDF3[plotDF3$PFT==i,], mapping=aes(x=Indiv_LAI, col=Dataset))+
+            theme_linedraw() +
+            theme(panel.grid.minor=element_blank(),
+                  axis.title.x = element_text(size=12), 
+                  axis.text.x = element_text(size=12),
+                  axis.text.y=element_text(size=12),
+                  axis.title.y=element_text(size=12),
+                  legend.text=element_text(size=10),
+                  legend.title=element_text(size=12),
+                  panel.grid.major=element_blank(),
+                  legend.position="bottom",
+                  legend.text.align=0)+
+            xlab("Individual LAI at mortality")+
+            transition_time(Year)+
+            labs(title = "Year: {frame_time}")+
+            shadow_wake(wake_length = 0.1, alpha = FALSE)
+        
+        ## save animation
+        animate(p5, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+        anim_save(paste0("animated_individual_LAI_at_mortality_", tDF[tDF$ID==i, "PFT"],
+                         ".gif"), animation=last_animation(), path="output/mortality/")
+        
+    }
+    
+    
+    ### Notes:
+    ### In some years, individual dies young (relative to PDF of the entire population within each PFT);
+    ### In other years, individual dies old.
+    ### We can investigate why there is this contrast in age-death relationship.
     
     
     
