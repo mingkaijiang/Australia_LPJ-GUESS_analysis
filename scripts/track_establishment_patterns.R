@@ -226,7 +226,7 @@ track_establishment_patterns <- function(myDF) {
               legend.position="none",
               legend.text.align=0)+
         xlab("PFT")+
-        ylab("Individual height")+
+        ylab("Individual crown area")+
         scale_x_discrete(limits=c("0"="BNE","1"="BINE","2"="BNS", 
                                   "3"="TeNE","4"="TeBS","5"="IBS",
                                   "6"="TeBE","7"="TrBE","8"="TrIBE", 
