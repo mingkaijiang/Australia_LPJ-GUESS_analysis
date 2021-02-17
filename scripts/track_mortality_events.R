@@ -357,7 +357,7 @@ track_mortality_events <- function(myDF, delete_mortality_file) {
         
         ### density
         p5 <- ggplot() +
-            geom_density(plotDF3[plotDF3$PFT==i,], mapping=aes(x=Indiv_LAI, col=Dataset))+
+            geom_density(plotDF3[plotDF3$PFT==i,], mapping=aes(x=LAI_indiv, col=Dataset))+
             theme_linedraw() +
             theme(panel.grid.minor=element_blank(),
                   axis.title.x = element_text(size=12), 
