@@ -93,7 +93,7 @@ plot_self_thinning_figures(myDF, patcharea = 1000)
 ###    3.1. How does simulated density-stemC relationship compare against observation? 
 ###    3.2. How does LPJ-GUESS and CABLE-POP compare?
 
-
+### Need to think about ways to show the data beyond animated plot, i.e. static figure for publication. 
 
 
 #### End
