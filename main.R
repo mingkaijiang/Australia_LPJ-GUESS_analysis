@@ -71,7 +71,7 @@ plot_animated_individual_map(myDF)
 
 track_establishment_patterns(myDF)
 
-track_mortality_events(myDF, delete_mortality_file = T)
+track_mortality_events(myDF, delete_mortality_file = F)
 
 plot_self_thinning_figures(myDF, patcharea = 1000)
 

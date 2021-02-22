@@ -27,48 +27,17 @@ prepare_mortality_dataset <- function(myDF) {
     patchID <- c(0:99)
     
     ### prepare outDF to store the output
-    outDF <- c()
+    myDF <- setDT(myDF)
     
-    ### loop through grid
-    for (i in gridID) {
-        subDF1 <- subset(myDF, ID == i)
-        
-        ## loop through patch
-        for (j in patchID) {
-            subDF2 <- subset(subDF1, Patch == j)
-            
-            pftID <- unique(subDF2$PFT)
-            
-            ## loop through PFT
-            for (k in pftID) {
-                subDF3 <- subset(subDF2, PFT == k)
-                
-                indivID <- unique(subDF3$Indiv)
-                
-                for (l in indivID) {
-                    subDF4 <- subset(subDF3, Indiv == l)
-                    
-                    ## get maximum year
-                    mx.year <- max(subDF4$Year)
-                    
-                    ## get dimension of the dataset
-                    d2 <- dim(subDF4)[1]
-                    
-                    ### extract year of mortality
-                    if (mx.year < final.year & d2 < d1) {
-                        ## extract the year before the individual disappear
-                        outDF2 <- subDF4[d2,]
-                        
-                        ### row merge
-                        outDF <- rbind(outDF, outDF2)
-                    } # end if
-                } # end l
-            } # end k
-        } # end j
-    } # end i
+    outDF <- myDF %>% 
+        group_by(ID, Patch, PFT, Indiv) %>% 
+        filter(Year==max(Year))
     
+    
+    ### remove year 2015
+    outDF2 <- outDF[outDF$Year < 2015, ]
     
     ### save the dataset to save time
-    write.csv(outDF, "output/mortality/individual_mortality_table.csv", row.names=F)
+    write.csv(outDF2, "output/mortality/individual_mortality_table.csv", row.names=F)
     
 }
