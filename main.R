@@ -61,6 +61,12 @@ for (i in 2:20) {
 plot_animated_density_map(myDF)
 
 
+#### Comments on to-do list:
+#### 1. What is the bioclimatic limit on PFT distribution?
+#### 2. What is the competition process controling PFT distribution?
+#### 3. How do different models compare in terms of the bioclimatic and competition control on PFT distribution?
+
+
 ############################# Read input on individual output #################################
 ### individual data 
 ### depending on number of patches and number of years in the output, files can be very large;
