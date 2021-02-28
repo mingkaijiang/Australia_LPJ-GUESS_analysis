@@ -12,18 +12,25 @@ source("prepare.R")
 
 ############################# Read input #################################
 ### get access to HIE General 2
+### and download data from HIE General 2 
 ### not fully developed yet
+### (you can develop code to run R on HIE general 2, too.)
 #scp(host="43.240.97.5", 
 #    path="/data/Jiang_M/", 
 #    keypasswd = NA, 
 #    user = "u30046137", rsa = TRUE)
 
+fire.option <- "withfire"
+
+
+############################# LAI #################################
+
 ### use local LAI example to develop the plotting script first
-myDF <- read.table("input/run1/lai.out", header=T)
+myDF <- read.table(paste0("input/", fire.option, "/run1/lai.out"), header=T)
 
 ### merge all 20 runs together
 for (i in 2:20) {
-    myDF2 <- read.table(paste0("input/run", i, "/lai.out"), header=T)
+    myDF2 <- read.table(paste0("input/", fire.option, "/run", i, "/lai.out"), header=T)
     myDF <- rbind(myDF, myDF2)
 }
 
@@ -42,11 +49,11 @@ plot_animated_LAI_latitudinal_gradient(myDF)
 
 ############################# Read input on tree density #################################
 ### tree density
-myDF <- read.table("input/run1/dens.out", header=T)
+myDF <- read.table(paste0("input/", fire.option, "/run1/dens.out"), header=T)
 
 ### merge all 20 runs together
 for (i in 2:20) {
-    myDF2 <- read.table(paste0("input/run", i, "/dens.out"), header=T)
+    myDF2 <- read.table(paste0("input/", fire.option, "/run", i, "/dens.out"), header=T)
     myDF <- rbind(myDF, myDF2)
 }
 
@@ -58,11 +65,11 @@ plot_animated_density_map(myDF)
 ### individual data 
 ### depending on number of patches and number of years in the output, files can be very large;
 ### so it might be more feasible to process each run separately, i.e. don't merge all runs together.
-myDF <- read.table("input/run1/indiv.out", header=T)
+myDF <- read.table(paste0("input/", fire.option, "/run1/indiv.out"), header=T)
 
 ### merge all 20 runs together
 for (i in 2:20) {
-    myDF2 <- read.table(paste0("input/run", i, "/indiv.out"), header=T)
+    myDF2 <- read.table(paste0("input/", fire.option, "/run", i, "/indiv.out"), header=T)
     myDF <- rbind(myDF, myDF2)
 }
 
