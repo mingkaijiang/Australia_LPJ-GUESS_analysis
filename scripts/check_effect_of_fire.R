@@ -166,11 +166,137 @@ check_effect_of_fire_basic <- function(fire.model) {
     combined_plot <- plot_grid(p1, p2, 
                                ncol=2, align="vh", axis = "l")
     
-    save_plot(paste0("output/static/PFT_by_year_effect_of_fire.pdf"),
+    save_plot(paste0("output/fire/PFT_by_year_effect_of_fire.pdf"),
               combined_plot, base_width=10, base_height = 10)
     
     
     #### Plot static LAI in selected years
+    subDF1 <- subset(myDF1, Year == 2015)
+    subDF2 <- subset(myDF2, Year == 2015)
+    
+    ### set 0 to 0.1
+    subDF1$Total[subDF1$Total <= 0.1] <- 0.1
+    subDF2$Total[subDF2$Total <= 0.1] <- 0.1
+    
+    ### set boundary
+    min.lim <- log(0.1)
+    max.lim <- log(max(c(subDF1$Total, subDF2$Total), na.rm=T))
+    
+    ### plot
+    p1 <- ggplot() + 
+        geom_tile(data=subDF1, aes(y=Lat, x=Lon, fill=log(Total))) +
+        coord_quickmap(xlim=range(subDF1$Lon), ylim=range(subDF1$Lat))+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.box = 'none',
+              legend.box.just = 'vertical',
+              legend.position = "none",
+              legend.background = element_rect(fill="white",
+                                               size=0.5, linetype="solid", 
+                                               colour ="white"),
+              plot.title = element_text(size=14, face="bold.italic", 
+                                        hjust = 0.5))+
+        scale_fill_continuous(name="LAI",
+                              na.value = 'white',
+                              #trans = "log",
+                              type = "viridis",
+                              limits = c(min.lim,max.lim),
+                              breaks = c(log(0.1), log(0.5), log(2), 
+                                         log(5), log(15)),
+                              labels = c(0.1, 0.5, 2, 5, 15))+
+        ggtitle(paste0("With fire ", fire.model))
+    
+    
+    
+    p2 <- ggplot() + 
+        geom_tile(data=subDF2, aes(y=Lat, x=Lon, fill=log(Total))) +
+        coord_quickmap(xlim=range(subDF2$Lon), ylim=range(subDF2$Lat))+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.box = 'none',
+              legend.box.just = 'vertical',
+              legend.position = "none",
+              legend.background = element_rect(fill="white",
+                                               size=0.5, linetype="solid", 
+                                               colour ="white"),
+              plot.title = element_text(size=14, face="bold.italic", 
+                                        hjust = 0.5))+
+        scale_fill_continuous(name="LAI",
+                              na.value = 'white',
+                              #trans = "log",
+                              type = "viridis",
+                              limits = c(min.lim,max.lim),
+                              breaks = c(log(0.1), log(0.5), log(2), 
+                                         log(5), log(15)),
+                              labels = c(0.1, 0.5, 2, 5, 15))+
+        ggtitle(paste0("Without fire"))
+    
+    
+    ### plot
+    ### combine legend
+    combined_legend <- get_legend(p1 + theme(legend.position="bottom",
+                                             legend.box = 'vertical',
+                                             legend.box.just = 'left'))
+    
+    combined_plot <- plot_grid(p1, p2, 
+                               ncol=2, align="vh", axis = "l")
+    
+    out_plot <- plot_grid(combined_plot, combined_legend, 
+                          ncol=1, rel_heights=c(1, 0.1))
+    
+    save_plot(paste0("output/fire/LAI_in_year_", i, "_effect_of_fire.pdf"),
+              out_plot, base_width=10, base_height = 10)
+    
+    
+    ### density plot
+    myDF1$Fire <- "With Fire"
+    myDF2$Fire <- "Without Fire"
+    
+    mgDF <- rbind(myDF1, myDF2)
+    
+    
+    p1 <- ggplot(mgDF, aes(x=Total, color=Fire)) +
+        geom_density()+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="bottom",
+              legend.text.align=0)+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)+
+        xlab("Total LAI")
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_fire_effect_on_LAI.gif"), animation=last_animation(), path="output/fire/")
+    
+
+    ### latitudinal gradient
+    
+    
+    
     
     ## end
 }
