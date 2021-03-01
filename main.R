@@ -20,8 +20,14 @@ source("prepare.R")
 #    keypasswd = NA, 
 #    user = "u30046137", rsa = TRUE)
 
-fire.option <- "withfire"
 
+### check effect of fire 
+check_effect_of_fire_basic(fire.model="blaze")
+
+
+
+### setting fire directory
+fire.option <- "withfire"
 
 ############################# LAI #################################
 
