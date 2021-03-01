@@ -1,6 +1,6 @@
 check_effect_of_fire_basic <- function(fire.model) {
     
-    #### read input
+    #### read input LAI
     ### fire
     myDF1 <- read.table(paste0("input/withfire/run1/lai.out"), header=T)
     for (i in 2:20) {
@@ -268,7 +268,7 @@ check_effect_of_fire_basic <- function(fire.model) {
     
     mgDF <- rbind(myDF1, myDF2)
     
-    
+    ### plot
     p1 <- ggplot(mgDF, aes(x=Total, color=Fire)) +
         geom_density()+
         theme_linedraw() +
@@ -291,6 +291,54 @@ check_effect_of_fire_basic <- function(fire.model) {
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save(paste0("animated_fire_effect_on_LAI.gif"), animation=last_animation(), path="output/fire/")
+    
+    
+    #### read input tree density
+    ### fire
+    myDF1 <- read.table(paste0("input/withfire/run1/dens.out"), header=T)
+    for (i in 2:20) {
+        tmpDF <- read.table(paste0("input/withfire/run", i, "/dens.out"), header=T)
+        myDF1 <- rbind(myDF1, tmpDF)
+    }
+    
+    ### no fire
+    myDF2 <- read.table(paste0("input/withoutfire/run1/dens.out"), header=T)
+    for (i in 2:20) {
+        tmpDF <- read.table(paste0("input/withoutfire/run", i, "/dens.out"), header=T)
+        myDF2 <- rbind(myDF2, tmpDF)
+    }
+    
+    
+    ### density plot
+    myDF1$Fire <- "With Fire"
+    myDF2$Fire <- "Without Fire"
+    
+    mgDF <- rbind(myDF1, myDF2)
+    
+    ### plot
+    p1 <- ggplot(mgDF, aes(x=Total, color=Fire)) +
+        geom_density()+
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.title.x = element_text(size=12), 
+              axis.text.x = element_text(size=12),
+              axis.text.y=element_text(size=12),
+              axis.title.y=element_text(size=12),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position="bottom",
+              legend.text.align=0)+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)+
+        xlab("Tree density")
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_fire_effect_on_tree_density.gif"), animation=last_animation(), path="output/fire/")
+    
     
 
     ### latitudinal gradient

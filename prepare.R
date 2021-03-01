@@ -41,6 +41,11 @@ if(!dir.exists("output/fire")) {
     dir.create("output/fire", showWarnings = FALSE)
 }
 
+### individual-level self-thinning plot 
+if(!dir.exists("output/climate")) {
+    dir.create("output/climate", showWarnings = FALSE)
+}
+
 #### Install packages
 if(!require(pacman))install.packages("pacman")
 pacman::p_load(dplyr, 

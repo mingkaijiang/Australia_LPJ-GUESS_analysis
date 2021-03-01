@@ -25,7 +25,6 @@ source("prepare.R")
 check_effect_of_fire_basic(fire.model="blaze")
 
 
-
 ### setting fire directory
 fire.option <- "withfire"
 
@@ -65,6 +64,19 @@ for (i in 2:20) {
 
 ### plotting 
 plot_animated_density_map(myDF)
+
+
+
+############################# check bioclimatic limit on PFT distribution #################################
+### In LPJ-GUESS, each PFT has its own parameter set to define the bioclimatic limit. 
+### Question: can we use pre-defined bioclimatic parameter to determine the PFT distribution? 
+### To answer this question, I will need to analyze the climate data to "predict" PFT distribution, and 
+### compare it against the model simulations.
+### If the maps are comparable, that means PFT distribution is largely determined by bioclimatic limit.
+### If the maps are not comparable, that means PFT distribution is determined by other factors (e.g. N competition) 
+### in addition to the bioclimatic limits.
+read_met_data_and_predict_PFT_distribution()
+
 
 
 #### Comments on to-do list:
