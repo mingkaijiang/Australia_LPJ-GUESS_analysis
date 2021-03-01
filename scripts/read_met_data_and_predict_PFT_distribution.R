@@ -17,14 +17,12 @@ read_met_data_and_predict_PFT_distribution <- function() {
     lon.list <- seq(aus.lon.min, aus.lon.max, 0.5)
     lat.list <- seq(aus.lat.max, aus.lat.min, -0.5)
     
-    ### calculate coldest month T, warmest month T of each year
+    ### calculate coldest month T, warmest month T of each year, and GDD
     if (!file.exists("output/climate/coldest_month_T.csv")) {
         
         print("preparing bioclimate dataset ... ... ")
         
-        ### We now have a dataset in the year before individual plant disappears;
-        ### this should be considered as mortality dataset.
-        ### We can look at the year information first to see if there is any pattern.
+        ### create the dataset
         tminDF <- extract_coldest_month_T(tmnDF)
         tmaxDF <- extract_warmest_month_T(tmnDF)
         gddDF <- extract_annual_gdd(tmnDF)
@@ -32,12 +30,13 @@ read_met_data_and_predict_PFT_distribution <- function() {
     } else {
         print("reading in bioclimatic dataset ... ...")
         
-        tminDF <- read.csv("output/climate/coldest_month_T.csv")
-        tmaxDF <- read.csv("output/climate/warmest_month_T.csv")
+        tminDF <- readRDS("output/climate/coldest_month_T.rds")
+        tmaxDF <- readRDS("output/climate/warmest_month_T.rds")
+        gddDF <- readRDS("output/climate/annual_gdd.rds")
         
     }
     
-
+   ### 20-yr running mean calculation
     
     
     

@@ -75,6 +75,9 @@ plot_animated_density_map(myDF)
 ### If the maps are comparable, that means PFT distribution is largely determined by bioclimatic limit.
 ### If the maps are not comparable, that means PFT distribution is determined by other factors (e.g. N competition) 
 ### in addition to the bioclimatic limits.
+
+### Note: the CRU forcing data that I am reading in is based on TRENDY, 
+### which is not exactly the same as used in LPJ-GUESS forcing.
 read_met_data_and_predict_PFT_distribution()
 
 

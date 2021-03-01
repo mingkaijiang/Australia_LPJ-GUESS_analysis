@@ -20,19 +20,19 @@ extract_annual_gdd <- function(inDF) {
             
             ### calculate annual mean, based on monthly values for each grid
             sDF <- cbind(monDF, sDF)
-            annDF <- summaryBy(sDF~Year, FUN=max, data=sDF, na.rm=T, keep.names=T)
+            sDF$gdd <- ifelse(sDF$sDF-5.0>=0.0, sDF$sDF-5.0, 0.0)
+            annDF <- summaryBy(gdd~Year, FUN=sum, data=sDF, na.rm=T, keep.names=T)
             
             ### obtain 118 year record
-            outDF[i,j,] <- annDF$sDF
+            outDF[i,j,] <- annDF$gdd
         }
     }
     
     ### save the data
-    write.csv(outDF, "output/climate/warmest_month_T.csv", row.names=F)
+    saveRDS(outDF, "output/climate/annual_gdd.rds")
     
     
     ## return
-    
     return(outDF)
     
 }

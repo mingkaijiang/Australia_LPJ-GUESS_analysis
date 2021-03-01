@@ -28,7 +28,7 @@ extract_coldest_month_T <- function(inDF) {
     }
     
     ### save the data
-    write.csv(outDF, "output/climate/coldest_month_T.csv", row.names=F)
+    saveRDS(outDF, "output/climate/coldest_month_T.rds")
     
     
     ## return
