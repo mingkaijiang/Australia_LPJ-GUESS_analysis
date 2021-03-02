@@ -82,10 +82,10 @@ read_met_data_and_predict_PFT_distribution()
 
 
 
-#### Comments on to-do list:
-#### 1. What is the bioclimatic limit on PFT distribution?
-#### 2. What is the competition process controling PFT distribution?
-#### 3. How do different models compare in terms of the bioclimatic and competition control on PFT distribution?
+#### Comments on the result:
+#### It seems that bioclimatic limit is not the only factor determining PFT distribution; 
+#### hence competition and plant dynamics are also crucial.
+#### Strangely, there is no water-related constraint in LPJ-GUESS.
 
 
 ############################# Read input on individual output #################################
@@ -108,6 +108,11 @@ track_establishment_patterns(myDF)
 track_mortality_events(myDF, delete_mortality_file = F)
 
 plot_self_thinning_figures(myDF, patcharea = 1000)
+
+############### environmental gradient analysis at selected locations ###################
+#### Possibly not needed, because we have provided analyes on bioclimatic limit and hence
+#### knows exactly what bioclimatic factors affect PFT distribution (all T related).
+
 
 ############### data-model validation at selected locations ###################
 ### Based on data availability, we need to choose a selected list of locations

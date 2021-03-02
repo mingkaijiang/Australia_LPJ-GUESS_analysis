@@ -50,7 +50,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     ### BNE
     plotDF$BNE <- ifelse(plotDF$tcmin_est < paramDF$tcmin_est[paramDF$PFT=="BNE"] | 
                              plotDF$tcmax_est > paramDF$tcmax_est[paramDF$PFT=="BNE"] |
-                             plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="BNE"]| 
+                             plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="BNE"] | 
                              plotDF$gdd5min_est < paramDF$gdd5min_est[paramDF$PFT=="BNE"], 0, 1)
     
     ### BINE
