@@ -36,12 +36,14 @@ read_met_data_and_predict_PFT_distribution <- function() {
         
     }
     
-   ### 20-yr running mean calculation
+    ### 20-yr running mean calculation
+    bioclimDF <- calculate_20_yr_running_mean(tminDF, tmaxDF, gddDF, lon.list, lat.list)
     
+    test <- subset(bioclimDF, Year == 1901)
     
-    
-    
-    
+    require(fields)
+    with(test, quilt.plot(Lon, Lat, gdd5min_est))
+     
     
     ### set bioclimatic parmaeters for each PFT
     paramDF <- define_PFT_bioclimatic_parameters()

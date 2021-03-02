@@ -61,7 +61,9 @@ pacman::p_load(dplyr,
                ggthemes,
                RColorBrewer,
                gganimate,
-               gifski)    
+               gifski,
+               abind,
+               caTools)    
 
 
 #### Sourcing all R files in the modules subdirectory
