@@ -239,7 +239,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     ############# plot PFT distribution ##############
     ### TeNE
     p1 <- ggplot() + 
-        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=BNS)) +
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=as.character(TeNE))) +
         coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
@@ -251,8 +251,37 @@ read_met_data_and_predict_PFT_distribution <- function() {
               legend.title=element_text(size=12),
               panel.grid.major=element_blank(),
               legend.position = "right")+
-        #scale_fill_manual(name="BNS presence/absence",
-        #                  values = c(0 = "absence", 1 = "presence"))+
+        scale_fill_manual(name="TeNE presence/absence",
+                          values = c("0", "1"),
+                          labels = c("absence", "presence"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+
+        
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_map_TeNE.gif", animation=last_animation(), path="output/climate/")
+    
+    
+    
+    ### TeBS
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=as.character(TeBS))) +
+        coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_manual(name="TeBS presence/absence",
+                          values = c("0", "1"),
+                          labels = c("absence", "presence"))+
         transition_time(Year)+
         labs(title = "Year: {frame_time}")+
         shadow_wake(wake_length = 0.1, alpha = FALSE)
@@ -260,8 +289,119 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     ## save animation
     animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
-    anim_save("animated_map_BNS.gif", animation=last_animation(), path="output/climate/")
+    anim_save("animated_map_TeBS.gif", animation=last_animation(), path="output/climate/")
     
+    
+    ### IBS
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=as.character(IBS))) +
+        coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_manual(name="IBS presence/absence",
+                          values = c("0", "1"),
+                          labels = c("absence", "presence"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_map_IBS.gif", animation=last_animation(), path="output/climate/")
+    
+    
+    
+    ### TeBE
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=as.character(TeBE))) +
+        coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_manual(name="TeBE presence/absence",
+                          values = c("0", "1"),
+                          labels = c("absence", "presence"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_map_TeBE.gif", animation=last_animation(), path="output/climate/")
+    
+    
+    
+    
+    ### C3G
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=as.character(C3G))) +
+        coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_manual(name="C3G presence/absence",
+                          values = c("0", "1"),
+                          labels = c("absence", "presence"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_map_C3G.gif", animation=last_animation(), path="output/climate/")
+    
+    
+    
+    ### C4G
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=as.character(C4G))) +
+        coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_manual(name="C4G presence/absence",
+                          values = c("0", "1"),
+                          labels = c("absence", "presence"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_map_C4G.gif", animation=last_animation(), path="output/climate/")
     
     
     ### end.    
