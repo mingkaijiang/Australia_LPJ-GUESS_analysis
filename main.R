@@ -109,6 +109,15 @@ track_mortality_events(myDF, delete_mortality_file = F)
 
 plot_self_thinning_figures(myDF, patcharea = 1000)
 
+############### data-model validation at selected locations ###################
+### Based on data availability, we need to choose a selected list of locations
+### to do model parameterization and data-model intercomparison.
+### The purpose of this is to see if we can simply parameterize the model
+### to match the vegetation dynamics we see in the data.
+### If that's the case, then we are basically proving the 
+### vegetation dynamic processes in the model are adequate.
+### We will start with LPJ-GUESS and progressively move to other models.
+
 
 ############################# To-do list #################################
 ### 1. How does individual mortality respond to known drought events?
