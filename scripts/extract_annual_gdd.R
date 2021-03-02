@@ -21,6 +21,7 @@ extract_annual_gdd <- function(inDF) {
             ### calculate annual mean, based on monthly values for each grid
             sDF <- cbind(monDF, sDF)
             sDF$gdd <- ifelse(sDF$sDF-5.0>=0.0, sDF$sDF-5.0, 0.0)
+            sDF$gdd <- sDF$gdd * 30.0
             annDF <- summaryBy(gdd~Year, FUN=sum, data=sDF, na.rm=T, keep.names=T)
             
             ### obtain 118 year record

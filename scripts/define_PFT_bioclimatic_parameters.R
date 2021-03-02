@@ -30,7 +30,7 @@ define_PFT_bioclimatic_parameters <- function() {
                        "twmin_est" = c(5.0, 5.0, -1000.0, 5.0, 
                                        5.0, -1000.0, 5.0, NA, 
                                        NA, NA, -1000.0, -1000.0),
-                       "dgg5min_est" = c(500, 500, 350.0, 2000.0, 
+                       "gdd5min_est" = c(500, 500, 350.0, 2000.0, 
                                          1000.0, 350.0, 2000.0, NA, 
                                          NA, NA, 0.0, 0.0))
     

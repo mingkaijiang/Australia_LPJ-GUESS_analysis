@@ -38,14 +38,231 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     ### 20-yr running mean calculation
     bioclimDF <- calculate_20_yr_running_mean(tminDF, tmaxDF, gddDF, lon.list, lat.list)
-    
-    test <- subset(bioclimDF, Year == 1901)
-    
-    require(fields)
-    with(test, quilt.plot(Lon, Lat, gdd5min_est))
      
     
     ### set bioclimatic parmaeters for each PFT
     paramDF <- define_PFT_bioclimatic_parameters()
     
+    
+    ### Generate spatial distribution of each PFT based on bioclimatic limits
+    plotDF <- bioclimDF
+    
+    ### BNE
+    plotDF$BNE <- ifelse(plotDF$tcmin_est < paramDF$tcmin_est[paramDF$PFT=="BNE"] | 
+                             plotDF$tcmax_est > paramDF$tcmax_est[paramDF$PFT=="BNE"] |
+                             plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="BNE"]| 
+                             plotDF$gdd5min_est < paramDF$gdd5min_est[paramDF$PFT=="BNE"], 0, 1)
+    
+    ### BINE
+    plotDF$BINE <- ifelse(plotDF$tcmin_est < paramDF$tcmin_est[paramDF$PFT=="BINE"] | 
+                             plotDF$tcmax_est > paramDF$tcmax_est[paramDF$PFT=="BINE"] |
+                             plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="BINE"]| 
+                             plotDF$gdd5min_est < paramDF$gdd5min_est[paramDF$PFT=="BINE"], 0, 1)
+    
+    ### BNS
+    plotDF$BNS <- ifelse(plotDF$tcmin_est < paramDF$tcmin_est[paramDF$PFT=="BNS"] | 
+                             plotDF$tcmax_est > paramDF$tcmax_est[paramDF$PFT=="BNS"] |
+                             plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="BNS"]| 
+                             plotDF$gdd5min_est < paramDF$gdd5min_est[paramDF$PFT=="BNS"], 0, 1)
+    
+    ### TeNE
+    plotDF$TeNE <- ifelse(plotDF$tcmin_est < paramDF$tcmin_est[paramDF$PFT=="TeNE"] | 
+                             plotDF$tcmax_est > paramDF$tcmax_est[paramDF$PFT=="TeNE"] |
+                             plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="TeNE"]| 
+                             plotDF$gdd5min_est < paramDF$gdd5min_est[paramDF$PFT=="TeNE"], 0, 1)
+    
+    ### TeBS
+    plotDF$TeBS <- ifelse(plotDF$tcmin_est < paramDF$tcmin_est[paramDF$PFT=="TeBS"] | 
+                             plotDF$tcmax_est > paramDF$tcmax_est[paramDF$PFT=="TeBS"] |
+                             plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="TeBS"]| 
+                             plotDF$gdd5min_est < paramDF$gdd5min_est[paramDF$PFT=="TeBS"], 0, 1)
+    
+    ### IBS
+    plotDF$IBS <- ifelse(plotDF$tcmin_est < paramDF$tcmin_est[paramDF$PFT=="IBS"] | 
+                             plotDF$tcmax_est > paramDF$tcmax_est[paramDF$PFT=="IBS"] |
+                             plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="IBS"]| 
+                             plotDF$gdd5min_est < paramDF$gdd5min_est[paramDF$PFT=="IBS"], 0, 1)
+    
+    ### TeBE
+    plotDF$TeBE <- ifelse(plotDF$tcmin_est < paramDF$tcmin_est[paramDF$PFT=="TeBE"] | 
+                             plotDF$tcmax_est > paramDF$tcmax_est[paramDF$PFT=="TeBE"] |
+                             plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="TeBE"] | 
+                             plotDF$gdd5min_est < paramDF$gdd5min_est[paramDF$PFT=="TeBE"], 
+                          0, 1)
+    
+    
+    ### C3G
+    plotDF$C3G <- ifelse(plotDF$tcmin_est < paramDF$tcmin_est[paramDF$PFT=="C3G"] | 
+                             plotDF$tcmax_est > paramDF$tcmax_est[paramDF$PFT=="C3G"] |
+                             plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="C3G"]| 
+                             plotDF$gdd5min_est < paramDF$gdd5min_est[paramDF$PFT=="C3G"], 0, 1)
+    
+    ### C4G
+    plotDF$C4G <- ifelse(plotDF$tcmin_est < paramDF$tcmin_est[paramDF$PFT=="C4G"] | 
+                             plotDF$tcmax_est > paramDF$tcmax_est[paramDF$PFT=="C4G"] |
+                             plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="C4G"]| 
+                             plotDF$gdd5min_est < paramDF$gdd5min_est[paramDF$PFT=="C4G"], 0, 1)
+
+    
+    
+    ### plotting - bioclimatic limits
+    xlimlon <- range(lon.list)
+    ylimlat <- range(lat.list)
+    
+    tcmin.min <- min(plotDF$tcmin_est)
+    tcmin.max <- max(plotDF$tcmin_est)
+    
+    tcmax.min <- min(plotDF$tcmax_est)
+    tcmax.max <- max(plotDF$tcmax_est)
+    
+    twmin.min <- min(plotDF$twmin_est)
+    twmin.max <- max(plotDF$twmin_est)
+    
+    gdd5min.min <- min(plotDF$gdd5min_est)
+    gdd5min.max <- max(plotDF$gdd5min_est)
+    
+    
+    
+    ### tcmin
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=tcmin_est)) +
+        coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_continuous(name="Min coldest month T",
+                              na.value = 'white',
+                              type = "viridis",
+                              limits = c(tcmin.min,tcmin.max))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_map_tcmin.gif", animation=last_animation(), path="output/climate/")
+    
+    
+    
+    ### tcmax
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=tcmax_est)) +
+        coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_continuous(name="Max coldest month T",
+                              na.value = 'white',
+                              type = "viridis",
+                              limits = c(tcmax.min,tcmax.max))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_map_tcmax.gif", animation=last_animation(), path="output/climate/")
+    
+    
+    ### twmin
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=twmin_est)) +
+        coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_continuous(name="Min warmest month T",
+                              na.value = 'white',
+                              type = "viridis",
+                              limits = c(twmin.min,twmin.max))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_map_twmin.gif", animation=last_animation(), path="output/climate/")
+    
+    
+    ### gdd5min
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=gdd5min_est)) +
+        coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_continuous(name="growing degree day",
+                              na.value = 'white',
+                              type = "viridis",
+                              limits = c(gdd5min.min,gdd5min.max))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_map_gdd5min.gif", animation=last_animation(), path="output/climate/")
+    
+    
+    ############# plot PFT distribution ##############
+    ### TeNE
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=BNS)) +
+        coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        #scale_fill_manual(name="BNS presence/absence",
+        #                  values = c(0 = "absence", 1 = "presence"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save("animated_map_BNS.gif", animation=last_animation(), path="output/climate/")
+    
+    
+    
+    ### end.    
 }

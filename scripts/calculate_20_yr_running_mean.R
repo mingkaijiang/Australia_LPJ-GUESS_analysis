@@ -68,6 +68,19 @@ calculate_20_yr_running_mean <- function (tminDF, tmaxDF, gddDF,
                     "tcmin_est", "tcmax_est",
                     "twmin_est", "gdd5min_est")]
     
+    ### replace inf and na with na
+    out$tcmin_est[is.infinite(out$tcmin_est)] <- NA
+    out$tcmax_est[is.infinite(out$tcmax_est)] <- NA
+    out$twmin_est[is.infinite(out$twmin_est)] <- NA
+    out$gdd5min_est[is.infinite(out$gdd5min_est)] <- NA
+    
+    
+    out$tcmin_est[is.nan(out$tcmin_est)] <- NA
+    out$tcmax_est[is.nan(out$tcmax_est)] <- NA
+    out$twmin_est[is.nan(out$twmin_est)] <- NA
+    out$gdd5min_est[is.nan(out$gdd5min_est)] <- NA
+    
+    
     return(out)
     
 }
