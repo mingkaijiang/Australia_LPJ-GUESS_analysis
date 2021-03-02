@@ -86,6 +86,10 @@ read_met_data_and_predict_PFT_distribution()
 #### It seems that bioclimatic limit is not the only factor determining PFT distribution; 
 #### hence competition and plant dynamics are also crucial.
 #### Strangely, there is no water-related constraint in LPJ-GUESS.
+#### establishment is determined by bioclimatic limit, then by PFT-specific establishment parameters.
+#### Currently, unclear how these PFT-specific parameters are read in, and influenced by abiotic and biotic factors.
+#### Need to find out.
+#### Then, check equations on mortality.
 
 
 ############################# Read input on individual output #################################
