@@ -121,6 +121,12 @@ plot_self_thinning_figures(myDF, patcharea = 1000)
 #### knows exactly what bioclimatic factors affect PFT distribution (all T related).
 
 
+#### Let's check water effect on mortality first, i.e. rainfall gradient and 
+#### understand why establishment doesn't happen for rainfall range. 
+
+
+
+
 ############### data-model validation at selected locations ###################
 ### Based on data availability, we need to choose a selected list of locations
 ### to do model parameterization and data-model intercomparison.
@@ -129,6 +135,9 @@ plot_self_thinning_figures(myDF, patcharea = 1000)
 ### If that's the case, then we are basically proving the 
 ### vegetation dynamic processes in the model are adequate.
 ### We will start with LPJ-GUESS and progressively move to other models.
+
+
+
 
 
 ############################# To-do list #################################
