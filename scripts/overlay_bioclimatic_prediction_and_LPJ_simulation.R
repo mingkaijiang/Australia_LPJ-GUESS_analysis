@@ -64,7 +64,19 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
     plotDF1$C3GVegDymEffect <- with(plotDF1, (C3Gbio - C3Gnofire))
     plotDF1$C4GVegDymEffect <- with(plotDF1, (C4Gbio - C4Gnofire))
     
+    ## ignore bioclimatic none presence
+    plotDF1$BNEVegDymEffect <- ifelse(plotDF1$BNEbio == 0, "2", plotDF1$BNEVegDymEffect)
+    plotDF1$BINEVegDymEffect <- ifelse(plotDF1$BINEbio == 0, "2", plotDF1$BINEVegDymEffect)
+    plotDF1$BNSVegDymEffect <- ifelse(plotDF1$BNSbio == 0, "2", plotDF1$BNSVegDymEffect)
+    plotDF1$TeNEVegDymEffect <- ifelse(plotDF1$TeNEbio == 0, "2", plotDF1$TeNEVegDymEffect)
+    plotDF1$TeBSVegDymEffect <- ifelse(plotDF1$TeBSbio == 0, "2", plotDF1$TeBSVegDymEffect)
+    plotDF1$IBSVegDymEffect <- ifelse(plotDF1$IBSbio == 0, "2", plotDF1$IBSVegDymEffect)
+    plotDF1$TeBEVegDymEffect <- ifelse(plotDF1$TeBEbio == 0, "2", plotDF1$TeBEVegDymEffect)
+    plotDF1$C3GVegDymEffect <- ifelse(plotDF1$C3Gbio == 0, "2", plotDF1$C3GVegDymEffect)
+    plotDF1$C4GVegDymEffect <- ifelse(plotDF1$C4Gbio == 0, "2", plotDF1$C4GVegDymEffect)
     
+    
+    ### as character
     plotDF1$BNEVegDymEffect <- as.character(plotDF1$BNEVegDymEffect)
     plotDF1$BINEVegDymEffect <- as.character(plotDF1$BINEVegDymEffect)
     plotDF1$BNSVegDymEffect <- as.character(plotDF1$BNSVegDymEffect)
@@ -74,6 +86,7 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
     plotDF1$TeBEVegDymEffect <- as.character(plotDF1$TeBEVegDymEffect)
     plotDF1$C3GVegDymEffect <- as.character(plotDF1$C3GVegDymEffect)
     plotDF1$C4GVegDymEffect <- as.character(plotDF1$C4GVegDymEffect)
+    
     
         
     ### plot TeNE
@@ -97,11 +110,12 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
               plot.title = element_text(size=14, face="bold.italic", 
                                         hjust = 0.5))+
         scale_fill_manual(name="TeNE Vegetation Dynamic Effect",
-                          breaks = c("-1", "0", "1"),
+                          breaks = c("-1", "0", "1", "2"),
                           labels = c("Outside bioclimatic limit", 
                                      "Within bioclimatic limit, present without fire", 
-                                     "Within bioclimatic limit, but disappeared due to other constraints"),
-                          values = c("green", "yellow", "red"))+
+                                     "Within bioclimatic limit, but disappeared due to other constraints",
+                                     "Bioclimatic non-existence"),
+                          values = c("green", "yellow", "red", "grey"))+
         transition_time(Year)+
         labs(title = "Year: {frame_time}")+
         shadow_wake(wake_length = 0.1, alpha = FALSE)
@@ -134,11 +148,12 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
               plot.title = element_text(size=14, face="bold.italic", 
                                         hjust = 0.5))+
         scale_fill_manual(name="TeBS Vegetation Dynamic Effect",
-                          breaks = c("-1", "0", "1"),
+                          breaks = c("-1", "0", "1", "2"),
                           labels = c("Outside bioclimatic limit", 
                                      "Within bioclimatic limit, present without fire", 
-                                     "Within bioclimatic limit, but disappeared due to other constraints"),
-                          values = c("green", "yellow", "red"))+
+                                     "Within bioclimatic limit, but disappeared due to other constraints",
+                                     "Bioclimatic non-existence"),
+                          values = c("green", "yellow", "red", "grey"))+
         transition_time(Year)+
         labs(title = "Year: {frame_time}")+
         shadow_wake(wake_length = 0.1, alpha = FALSE)
@@ -171,11 +186,12 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
               plot.title = element_text(size=14, face="bold.italic", 
                                         hjust = 0.5))+
         scale_fill_manual(name="IBS Vegetation Dynamic Effect",
-                          breaks = c("-1", "0", "1"),
+                          breaks = c("-1", "0", "1", "2"),
                           labels = c("Outside bioclimatic limit", 
                                      "Within bioclimatic limit, present without fire", 
-                                     "Within bioclimatic limit, but disappeared due to other constraints"),
-                          values = c("green", "yellow", "red"))+
+                                     "Within bioclimatic limit, but disappeared due to other constraints",
+                                     "Bioclimatic non-existence"),
+                          values = c("green", "yellow", "red", "grey"))+
         transition_time(Year)+
         labs(title = "Year: {frame_time}")+
         shadow_wake(wake_length = 0.1, alpha = FALSE)
@@ -207,11 +223,12 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
               plot.title = element_text(size=14, face="bold.italic", 
                                         hjust = 0.5))+
         scale_fill_manual(name="TeBE Vegetation Dynamic Effect",
-                          breaks = c("-1", "0", "1"),
+                          breaks = c("-1", "0", "1", "2"),
                           labels = c("Outside bioclimatic limit", 
                                      "Within bioclimatic limit, present without fire", 
-                                     "Within bioclimatic limit, but disappeared due to other constraints"),
-                          values = c("green", "yellow", "red"))+
+                                     "Within bioclimatic limit, but disappeared due to other constraints",
+                                     "Bioclimatic non-existence"),
+                          values = c("green", "yellow", "red", "grey"))+
         transition_time(Year)+
         labs(title = "Year: {frame_time}")+
         shadow_wake(wake_length = 0.1, alpha = FALSE)
@@ -243,11 +260,12 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
               plot.title = element_text(size=14, face="bold.italic", 
                                         hjust = 0.5))+
         scale_fill_manual(name="C3G Vegetation Dynamic Effect",
-                          breaks = c("-1", "0", "1"),
+                          breaks = c("-1", "0", "1", "2"),
                           labels = c("Outside bioclimatic limit", 
                                      "Within bioclimatic limit, present without fire", 
-                                     "Within bioclimatic limit, but disappeared due to other constraints"),
-                          values = c("green", "yellow", "red"))+
+                                     "Within bioclimatic limit, but disappeared due to other constraints",
+                                     "Bioclimatic non-existence"),
+                          values = c("green", "yellow", "red", "grey"))+
         transition_time(Year)+
         labs(title = "Year: {frame_time}")+
         shadow_wake(wake_length = 0.1, alpha = FALSE)
@@ -279,11 +297,12 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
               plot.title = element_text(size=14, face="bold.italic", 
                                         hjust = 0.5))+
         scale_fill_manual(name="C4G Vegetation Dynamic Effect",
-                          breaks = c("-1", "0", "1"),
+                          breaks = c("-1", "0", "1", "2"),
                           labels = c("Outside bioclimatic limit", 
                                      "Within bioclimatic limit, present without fire", 
-                                     "Within bioclimatic limit, but disappeared due to other constraints"),
-                          values = c("green", "yellow", "red"))+
+                                     "Within bioclimatic limit, but disappeared due to other constraints",
+                                     "Bioclimatic non-existence"),
+                          values = c("green", "yellow", "red", "grey"))+
         transition_time(Year)+
         labs(title = "Year: {frame_time}")+
         shadow_wake(wake_length = 0.1, alpha = FALSE)
