@@ -65,15 +65,15 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
     plotDF1$C4GVegDymEffect <- with(plotDF1, (C4Gbio - C4Gnofire))
     
     ## ignore bioclimatic none presence
-    plotDF1$BNEVegDymEffect <- ifelse(plotDF1$BNEbio == 0, "2", plotDF1$BNEVegDymEffect)
-    plotDF1$BINEVegDymEffect <- ifelse(plotDF1$BINEbio == 0, "2", plotDF1$BINEVegDymEffect)
-    plotDF1$BNSVegDymEffect <- ifelse(plotDF1$BNSbio == 0, "2", plotDF1$BNSVegDymEffect)
-    plotDF1$TeNEVegDymEffect <- ifelse(plotDF1$TeNEbio == 0, "2", plotDF1$TeNEVegDymEffect)
-    plotDF1$TeBSVegDymEffect <- ifelse(plotDF1$TeBSbio == 0, "2", plotDF1$TeBSVegDymEffect)
-    plotDF1$IBSVegDymEffect <- ifelse(plotDF1$IBSbio == 0, "2", plotDF1$IBSVegDymEffect)
-    plotDF1$TeBEVegDymEffect <- ifelse(plotDF1$TeBEbio == 0, "2", plotDF1$TeBEVegDymEffect)
-    plotDF1$C3GVegDymEffect <- ifelse(plotDF1$C3Gbio == 0, "2", plotDF1$C3GVegDymEffect)
-    plotDF1$C4GVegDymEffect <- ifelse(plotDF1$C4Gbio == 0, "2", plotDF1$C4GVegDymEffect)
+    plotDF1$BNEVegDymEffect <- ifelse(plotDF1$BNEbio == 0 & plotDF1$BNEnofire == 0, "2", plotDF1$BNEVegDymEffect)
+    plotDF1$BINEVegDymEffect <- ifelse(plotDF1$BINEbio == 0 & plotDF1$BINEnofire == 0, "2", plotDF1$BINEVegDymEffect)
+    plotDF1$BNSVegDymEffect <- ifelse(plotDF1$BNSbio == 0 & plotDF1$BNSnofire == 0, "2", plotDF1$BNSVegDymEffect)
+    plotDF1$TeNEVegDymEffect <- ifelse(plotDF1$TeNEbio == 0 & plotDF1$TeNEnofire == 0, "2", plotDF1$TeNEVegDymEffect)
+    plotDF1$TeBSVegDymEffect <- ifelse(plotDF1$TeBSbio == 0 & plotDF1$TeBSnofire == 0, "2", plotDF1$TeBSVegDymEffect)
+    plotDF1$IBSVegDymEffect <- ifelse(plotDF1$IBSbio == 0 & plotDF1$IBSnofire == 0, "2", plotDF1$IBSVegDymEffect)
+    plotDF1$TeBEVegDymEffect <- ifelse(plotDF1$TeBEbio == 0 & plotDF1$TeBEnofire == 0, "2", plotDF1$TeBEVegDymEffect)
+    plotDF1$C3GVegDymEffect <- ifelse(plotDF1$C3Gbio == 0 & plotDF1$C3Gnofire == 0, "2", plotDF1$C3GVegDymEffect)
+    plotDF1$C4GVegDymEffect <- ifelse(plotDF1$C4Gbio == 0 & plotDF1$C4Gnofire == 0, "2", plotDF1$C4GVegDymEffect)
     
     
     ### as character
