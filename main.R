@@ -93,15 +93,34 @@ read_met_data_and_predict_PFT_distribution()
 #### Background mortality is a consequence of tree longevity. 
 #### There are also mortality associated with disturbance and fire, and self-thinning.  
 
+
 ############################# How do trees die in response to drought? #################################
 #### Here I will need to investigate the rainfall effect on PFT distribution. 
 #### In particular, for death year, what rainfall threshold do we see for different PFT?
 
 ### Step 1: Overlay T-based PFT distribution with real model simulation results.
 ###         The gap in coverage is due to vegetation dynamics, disturbance, fire, nutrient, and rainfall.
+###         The effect of fire is given in fire module,
+###         so the gap is due to vegetation dyamcis, disturbance and nutrient competition.
+###         Note that there is also vegetation presence outside bioclimatic boundary in the simulation result,
+###         suggesting potentially other factors affecting establishment (or could be mis-match in climate forcing data,
+###         or the effect of weather generator).
 overlay_bioclimatic_prediction_and_LPJ_simulation()
 
+### Step 2: Investigate effect of water on vegetation disappearance within the bioclimatic boundary.
+###         It is likely that there is simply not enough water to support certain PFT growth, 
+###         but we will need to understand the process in the model, so that we know what 
+###         drought-mortality function to implement in the future.
 
+
+
+### Step 3: Nutrient competition.
+
+
+### Step 4: Vegetation presence outside bioclimatic boundary, why?
+
+
+### Step 5: disturbances? 
 
 
 
