@@ -92,7 +92,18 @@ read_met_data_and_predict_PFT_distribution()
 
 #### Background mortality is a consequence of tree longevity. 
 #### There are also mortality associated with disturbance and fire, and self-thinning.  
-#### Then there is 
+
+############################# How do trees die in response to drought? #################################
+#### Here I will need to investigate the rainfall effect on PFT distribution. 
+#### In particular, for death year, what rainfall threshold do we see for different PFT?
+
+### Step 1: Overlay T-based PFT distribution with real model simulation results.
+###         The gap in coverage is due to vegetation dynamics, disturbance, fire, nutrient, and rainfall.
+
+
+
+
+
 
 
 ############################# Read input on individual output #################################

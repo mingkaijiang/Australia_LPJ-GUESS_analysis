@@ -18,7 +18,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     lat.list <- seq(aus.lat.max, aus.lat.min, -0.5)
     
     ### calculate coldest month T, warmest month T of each year, and GDD
-    if (!file.exists("output/climate/coldest_month_T.csv")) {
+    if (!file.exists("output/climate/coldest_month_T.rds")) {
         
         print("preparing bioclimate dataset ... ... ")
         
@@ -102,6 +102,10 @@ read_met_data_and_predict_PFT_distribution <- function() {
                              plotDF$tcmax_est > paramDF$tcmax_est[paramDF$PFT=="C4G"] |
                              plotDF$twmin_est < paramDF$twmin_est[paramDF$PFT=="C4G"]| 
                              plotDF$gdd5min_est < paramDF$gdd5min_est[paramDF$PFT=="C4G"], 0, 1)
+    
+    
+    ### save the output
+    saveRDS(plotDF, "output/climate/bioclimatic_predicted_vegetation_distribution.rds")
 
     
     
