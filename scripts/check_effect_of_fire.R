@@ -340,7 +340,398 @@ check_effect_of_fire_basic <- function(fire.model) {
     anim_save(paste0("animated_fire_effect_on_tree_density.gif"), animation=last_animation(), path="output/fire/")
     
     
+    ### check the effect of fire on PFT distribution
+    ### ie. overlay with and without fire, to see which grids were wiped out by fire completely.
+    presenceDF1 <- myDF1
+    presenceDF2 <- myDF2
+    
+    ### prepare plot settings
+    lonlim <- range(presenceDF1$Lon)
+    latlim <- range(presenceDF1$Lat)
+    
+    ### TeNE
+    plotDF1 <- cbind(presenceDF1[,1:3], presenceDF1$TeNE, presenceDF2$TeNE)
+    colnames(plotDF1) <- c("Lon", "Lat", "Year", "With", "Without")
+    plotDF1$FireEffect <- with(plotDF1, (Without - With))
+    summary(plotDF1$FireEffect)
+    plotDF1$FireEffect <- ifelse(plotDF1$FireEffect>0, 1, ifelse(plotDF1$FireEffect < 0, -1, 0))
+    plotDF1$FireEffect <- as.character(plotDF1$FireEffect)
 
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF1, aes(y=Lat, x=Lon, fill=FireEffect)) +
+        coord_quickmap(xlim=lonlim, ylim=latlim)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.box = 'none',
+              legend.box.just = 'vertical',
+              legend.position = "right",
+              legend.background = element_rect(fill="white",
+                                               size=0.5, linetype="solid", 
+                                               colour ="white"),
+              plot.title = element_text(size=14, face="bold.italic", 
+                                        hjust = 0.5))+
+        scale_fill_manual(name="TeNE Fire Effect (i.e. Without fire - fire)",
+                              breaks = c("-1", "0", "1"),
+                              labels = c("Fire introduced", "No effect", "Fire destroyed"),
+                          values = c("green", "white", "red"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_fire_effect_on_TeNE_distribution.gif"), animation=last_animation(), path="output/fire/")
+    
+    
+    ### TeBS
+    plotDF1 <- cbind(presenceDF1[,1:3], presenceDF1$TeBS, presenceDF2$TeBS)
+    colnames(plotDF1) <- c("Lon", "Lat", "Year", "With", "Without")
+    plotDF1$FireEffect <- with(plotDF1, (Without - With))
+    summary(plotDF1$FireEffect)
+    plotDF1$FireEffect <- ifelse(plotDF1$FireEffect>0, 1, ifelse(plotDF1$FireEffect < 0, -1, 0))
+    plotDF1$FireEffect <- as.character(plotDF1$FireEffect)
+    
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF1, aes(y=Lat, x=Lon, fill=FireEffect)) +
+        coord_quickmap(xlim=lonlim, ylim=latlim)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.box = 'none',
+              legend.box.just = 'vertical',
+              legend.position = "right",
+              legend.background = element_rect(fill="white",
+                                               size=0.5, linetype="solid", 
+                                               colour ="white"),
+              plot.title = element_text(size=14, face="bold.italic", 
+                                        hjust = 0.5))+
+        scale_fill_manual(name="TeBS Fire Effect (i.e. Without fire - fire)",
+                          breaks = c("-1", "0", "1"),
+                          labels = c("Fire introduced", "No effect", "Fire destroyed"),
+                          values = c("green", "white", "red"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_fire_effect_on_TeBS_distribution.gif"), animation=last_animation(), path="output/fire/")
+    
+    
+    
+    ### IBS
+    plotDF1 <- cbind(presenceDF1[,1:3], presenceDF1$IBS, presenceDF2$IBS)
+    colnames(plotDF1) <- c("Lon", "Lat", "Year", "With", "Without")
+    plotDF1$FireEffect <- with(plotDF1, (Without - With))
+    summary(plotDF1$FireEffect)
+    plotDF1$FireEffect <- ifelse(plotDF1$FireEffect>0, 1, ifelse(plotDF1$FireEffect < 0, -1, 0))
+    plotDF1$FireEffect <- as.character(plotDF1$FireEffect)
+    
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF1, aes(y=Lat, x=Lon, fill=FireEffect)) +
+        coord_quickmap(xlim=lonlim, ylim=latlim)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.box = 'none',
+              legend.box.just = 'vertical',
+              legend.position = "right",
+              legend.background = element_rect(fill="white",
+                                               size=0.5, linetype="solid", 
+                                               colour ="white"),
+              plot.title = element_text(size=14, face="bold.italic", 
+                                        hjust = 0.5))+
+        scale_fill_manual(name="IBS Fire Effect (i.e. Without fire - fire)",
+                          breaks = c("-1", "0", "1"),
+                          labels = c("Fire introduced", "No effect", "Fire destroyed"),
+                          values = c("green", "white", "red"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_fire_effect_on_IBS_distribution.gif"), animation=last_animation(), path="output/fire/")
+    
+    
+    ### TeBE
+    plotDF1 <- cbind(presenceDF1[,1:3], presenceDF1$TeBE, presenceDF2$TeBE)
+    colnames(plotDF1) <- c("Lon", "Lat", "Year", "With", "Without")
+    plotDF1$FireEffect <- with(plotDF1, (Without - With))
+    summary(plotDF1$FireEffect)
+    plotDF1$FireEffect <- ifelse(plotDF1$FireEffect>0, 1, ifelse(plotDF1$FireEffect < 0, -1, 0))
+    plotDF1$FireEffect <- as.character(plotDF1$FireEffect)
+    
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF1, aes(y=Lat, x=Lon, fill=FireEffect)) +
+        coord_quickmap(xlim=lonlim, ylim=latlim)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.box = 'none',
+              legend.box.just = 'vertical',
+              legend.position = "right",
+              legend.background = element_rect(fill="white",
+                                               size=0.5, linetype="solid", 
+                                               colour ="white"),
+              plot.title = element_text(size=14, face="bold.italic", 
+                                        hjust = 0.5))+
+        scale_fill_manual(name="TeBE Fire Effect (i.e. Without fire - fire)",
+                          breaks = c("-1", "0", "1"),
+                          labels = c("Fire introduced", "No effect", "Fire destroyed"),
+                          values = c("green", "white", "red"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_fire_effect_on_TeBE_distribution.gif"), animation=last_animation(), path="output/fire/")
+    
+    
+    
+    ### C3G
+    plotDF1 <- cbind(presenceDF1[,1:3], presenceDF1$C3G, presenceDF2$C3G)
+    colnames(plotDF1) <- c("Lon", "Lat", "Year", "With", "Without")
+    plotDF1$FireEffect <- with(plotDF1, (Without - With))
+    summary(plotDF1$FireEffect)
+    plotDF1$FireEffect <- ifelse(plotDF1$FireEffect>0, 1, ifelse(plotDF1$FireEffect < 0, -1, 0))
+    plotDF1$FireEffect <- as.character(plotDF1$FireEffect)
+    
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF1, aes(y=Lat, x=Lon, fill=FireEffect)) +
+        coord_quickmap(xlim=lonlim, ylim=latlim)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.box = 'none',
+              legend.box.just = 'vertical',
+              legend.position = "right",
+              legend.background = element_rect(fill="white",
+                                               size=0.5, linetype="solid", 
+                                               colour ="white"),
+              plot.title = element_text(size=14, face="bold.italic", 
+                                        hjust = 0.5))+
+        scale_fill_manual(name="C3G Fire Effect (i.e. Without fire - fire)",
+                          breaks = c("-1", "0", "1"),
+                          labels = c("Fire introduced", "No effect", "Fire destroyed"),
+                          values = c("green", "white", "red"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_fire_effect_on_C3G_distribution.gif"), animation=last_animation(), path="output/fire/")
+    
+    
+    
+    ### C4G
+    plotDF1 <- cbind(presenceDF1[,1:3], presenceDF1$C4G, presenceDF2$C4G)
+    colnames(plotDF1) <- c("Lon", "Lat", "Year", "With", "Without")
+    plotDF1$FireEffect <- with(plotDF1, (Without - With))
+    summary(plotDF1$FireEffect)
+    plotDF1$FireEffect <- ifelse(plotDF1$FireEffect>0, 1, ifelse(plotDF1$FireEffect < 0, -1, 0))
+    plotDF1$FireEffect <- as.character(plotDF1$FireEffect)
+    
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF1, aes(y=Lat, x=Lon, fill=FireEffect)) +
+        coord_quickmap(xlim=lonlim, ylim=latlim)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.box = 'none',
+              legend.box.just = 'vertical',
+              legend.position = "right",
+              legend.background = element_rect(fill="white",
+                                               size=0.5, linetype="solid", 
+                                               colour ="white"),
+              plot.title = element_text(size=14, face="bold.italic", 
+                                        hjust = 0.5))+
+        scale_fill_manual(name="C4G Fire Effect (i.e. Without fire - fire)",
+                          breaks = c("-1", "0", "1"),
+                          labels = c("Fire introduced", "No effect", "Fire destroyed"),
+                          values = c("green", "white", "red"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_fire_effect_on_C4G_distribution.gif"), animation=last_animation(), path="output/fire/")
+    
+    
+    
+    ### TrBE
+    plotDF1 <- cbind(presenceDF1[,1:3], presenceDF1$TrBE, presenceDF2$TrBE)
+    colnames(plotDF1) <- c("Lon", "Lat", "Year", "With", "Without")
+    plotDF1$FireEffect <- with(plotDF1, (Without - With))
+    summary(plotDF1$FireEffect)
+    plotDF1$FireEffect <- ifelse(plotDF1$FireEffect>0, 1, ifelse(plotDF1$FireEffect < 0, -1, 0))
+    plotDF1$FireEffect <- as.character(plotDF1$FireEffect)
+    
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF1, aes(y=Lat, x=Lon, fill=FireEffect)) +
+        coord_quickmap(xlim=lonlim, ylim=latlim)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.box = 'none',
+              legend.box.just = 'vertical',
+              legend.position = "right",
+              legend.background = element_rect(fill="white",
+                                               size=0.5, linetype="solid", 
+                                               colour ="white"),
+              plot.title = element_text(size=14, face="bold.italic", 
+                                        hjust = 0.5))+
+        scale_fill_manual(name="TrBE Fire Effect (i.e. Without fire - fire)",
+                          breaks = c("-1", "0", "1"),
+                          labels = c("Fire introduced", "No effect", "Fire destroyed"),
+                          values = c("green", "white", "red"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_fire_effect_on_TrBE_distribution.gif"), animation=last_animation(), path="output/fire/")
+    
+    
+    ### TrIBE
+    plotDF1 <- cbind(presenceDF1[,1:3], presenceDF1$TrIBE, presenceDF2$TrIBE)
+    colnames(plotDF1) <- c("Lon", "Lat", "Year", "With", "Without")
+    plotDF1$FireEffect <- with(plotDF1, (Without - With))
+    summary(plotDF1$FireEffect)
+    plotDF1$FireEffect <- ifelse(plotDF1$FireEffect>0, 1, ifelse(plotDF1$FireEffect < 0, -1, 0))
+    plotDF1$FireEffect <- as.character(plotDF1$FireEffect)
+    
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF1, aes(y=Lat, x=Lon, fill=FireEffect)) +
+        coord_quickmap(xlim=lonlim, ylim=latlim)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.box = 'none',
+              legend.box.just = 'vertical',
+              legend.position = "right",
+              legend.background = element_rect(fill="white",
+                                               size=0.5, linetype="solid", 
+                                               colour ="white"),
+              plot.title = element_text(size=14, face="bold.italic", 
+                                        hjust = 0.5))+
+        scale_fill_manual(name="TrIBE Fire Effect (i.e. Without fire - fire)",
+                          breaks = c("-1", "0", "1"),
+                          labels = c("Fire introduced", "No effect", "Fire destroyed"),
+                          values = c("green", "white", "red"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_fire_effect_on_TrIBE_distribution.gif"), animation=last_animation(), path="output/fire/")
+    
+    
+    ### TrBR
+    plotDF1 <- cbind(presenceDF1[,1:3], presenceDF1$TrBR, presenceDF2$TrBR)
+    colnames(plotDF1) <- c("Lon", "Lat", "Year", "With", "Without")
+    plotDF1$FireEffect <- with(plotDF1, (Without - With))
+    summary(plotDF1$FireEffect)
+    plotDF1$FireEffect <- ifelse(plotDF1$FireEffect>0, 1, ifelse(plotDF1$FireEffect < 0, -1, 0))
+    plotDF1$FireEffect <- as.character(plotDF1$FireEffect)
+    
+    p1 <- ggplot() + 
+        geom_tile(data=plotDF1, aes(y=Lat, x=Lon, fill=FireEffect)) +
+        coord_quickmap(xlim=lonlim, ylim=latlim)+
+        borders("world", col="grey", lwd=0.2) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.box = 'none',
+              legend.box.just = 'vertical',
+              legend.position = "right",
+              legend.background = element_rect(fill="white",
+                                               size=0.5, linetype="solid", 
+                                               colour ="white"),
+              plot.title = element_text(size=14, face="bold.italic", 
+                                        hjust = 0.5))+
+        scale_fill_manual(name="TrBR Fire Effect (i.e. Without fire - fire)",
+                          breaks = c("-1", "0", "1"),
+                          labels = c("Fire introduced", "No effect", "Fire destroyed"),
+                          values = c("green", "white", "red"))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
+    
+    
+    ## save animation
+    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    anim_save(paste0("animated_fire_effect_on_TrBR_distribution.gif"), animation=last_animation(), path="output/fire/")
+    
+    
+    
     ### latitudinal gradient
     
     

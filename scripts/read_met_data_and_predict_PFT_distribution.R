@@ -106,7 +106,6 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     ### save the output
     saveRDS(plotDF, "output/climate/bioclimatic_predicted_vegetation_distribution.rds")
-
     
     
     ### plotting - bioclimatic limits
