@@ -89,7 +89,10 @@ read_met_data_and_predict_PFT_distribution()
 #### establishment is determined by bioclimatic limit, then by PFT-specific establishment parameters.
 #### Currently, unclear how these PFT-specific parameters are read in, and influenced by abiotic and biotic factors.
 #### Need to find out.
-#### Then, check equations on mortality.
+
+#### Background mortality is a consequence of tree longevity. 
+#### There are also mortality associated with disturbance and fire, and self-thinning.  
+#### Then there is 
 
 
 ############################# Read input on individual output #################################
