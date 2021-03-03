@@ -99,7 +99,7 @@ read_met_data_and_predict_PFT_distribution()
 
 ### Step 1: Overlay T-based PFT distribution with real model simulation results.
 ###         The gap in coverage is due to vegetation dynamics, disturbance, fire, nutrient, and rainfall.
-overlay_bioclimatic_prediction_and_LPJ_simualtion()
+overlay_bioclimatic_prediction_and_LPJ_simulation()
 
 
 
