@@ -367,8 +367,8 @@ read_met_data_and_predict_PFT_distribution <- function() {
               panel.grid.major=element_blank(),
               legend.position = "right")+
         scale_fill_manual(name="C3G presence/absence",
-                          values = c("0", "1"),
-                          labels = c("absence", "presence"))+
+                          values = c("grey", "black"),
+                          labels = c("0" = "absence", "1" = "presence"))+
         transition_time(Year)+
         labs(title = "Year: {frame_time}")+
         shadow_wake(wake_length = 0.1, alpha = FALSE)
