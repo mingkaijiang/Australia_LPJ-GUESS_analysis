@@ -83,34 +83,36 @@ read_met_data_and_predict_PFT_distribution()
 
 
 #### Comments on the result:
-#### It seems that bioclimatic limit is not the only factor determining PFT distribution; 
-#### hence competition and plant dynamics are also crucial.
-#### Strangely, there is no water-related constraint in LPJ-GUESS.
-#### establishment is determined by bioclimatic limit, then by PFT-specific establishment parameters.
-#### Currently, unclear how these PFT-specific parameters are read in, and influenced by abiotic and biotic factors.
-#### Need to find out.
-
+#### It seems that bioclimatic limit is the major factor determining PFT distribution.
+#### Plant distribution is less affected by rainfall variability, but
+###  mostly by temperature-related variables. 
 #### Background mortality is a consequence of tree longevity. 
 #### There are also mortality associated with disturbance and fire, and self-thinning.  
 
-
-############################# How do trees die in response to drought? #################################
+#### Question to explore: How/Why do trees die in response to drought? 
 #### Here I will need to investigate the rainfall effect on PFT distribution. 
 #### In particular, for death year, what rainfall threshold do we see for different PFT?
 
 ### Step 1: Overlay T-based PFT distribution with real model simulation results.
 ###         The gap in coverage is due to vegetation dynamics, disturbance, fire, nutrient, and rainfall.
-###         The effect of fire is given in fire module,
-###         so the gap is due to vegetation dyamcis, disturbance and nutrient competition.
-###         Note that there is also vegetation presence outside bioclimatic boundary in the simulation result,
-###         suggesting potentially other factors affecting establishment (or could be mis-match in climate forcing data,
-###         or the effect of weather generator).
+###         The effect of fire is estimated based on turning fire on and off in the simulation,
+###         so the gap is due to vegetation dynamcis, disturbance and nutrient competition.
+###         Note that there is also vegetation presence outside bioclimatic boundary in the simulation result.
+###         This is because monthly data was downscaled to daily using weather generator in LPJ-GUESS,
+###         hence there is regions where mis-matches are apparent.
 overlay_bioclimatic_prediction_and_LPJ_simulation()
 
-### Step 2: Investigate effect of water on vegetation disappearance within the bioclimatic boundary.
-###         It is likely that there is simply not enough water to support certain PFT growth, 
-###         but we will need to understand the process in the model, so that we know what 
-###         drought-mortality function to implement in the future.
+### Step 2: Results above suggest that, at the grid level,
+###         PFT presence/absence almost never responds to water.
+###         Maybe at the individual/stand/patch level, 
+###         trees can still die as a result of drought.
+###         Hence, need to investigate effect of water on vegetation dynamics
+###         (abundance, productivity, reproductive fitness) at the cohort level,
+###         within the bioclimatic boundary.
+###         That is, for the same temperature (MAT or seasonality),
+###         how rainfall variability correlates with vegetation dynamics of each cohort.
+
+
 
 
 
@@ -147,7 +149,7 @@ track_mortality_events(myDF, delete_mortality_file = F)
 plot_self_thinning_figures(myDF, patcharea = 1000)
 
 ############### environmental gradient analysis at selected locations ###################
-#### Possibly not needed, because we have provided analyes on bioclimatic limit and hence
+#### Possibly not needed, because we have provided analyses on bioclimatic limit and hence
 #### knows exactly what bioclimatic factors affect PFT distribution (all T related).
 
 
