@@ -4,9 +4,9 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
     bioclimDF <- readRDS("output/climate/bioclimatic_predicted_vegetation_distribution.rds")
     
     ### read in LPJ file, without fire to rule out effect of fire on vegetation distribution
-    myDF2 <- read.table(paste0("input/withoutfire/run1/dens.out"), header=T)
+    myDF2 <- read.table(paste0("input/withoutfire/run1/lai.out"), header=T)
     for (i in 2:20) {
-        tmpDF <- read.table(paste0("input/withoutfire/run", i, "/dens.out"), header=T)
+        tmpDF <- read.table(paste0("input/withoutfire/run", i, "/lai.out"), header=T)
         myDF2 <- rbind(myDF2, tmpDF)
     }
     
@@ -41,6 +41,7 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
     plotDF1$TeBEnofire <- ifelse(plotDF1$TeBEnofire > 0, 1, 0)
     plotDF1$TrBEnofire <- ifelse(plotDF1$TrBEnofire > 0, 1, 0)
     plotDF1$TrIBEnofire <- ifelse(plotDF1$TrIBEnofire > 0, 1, 0)
+    plotDF1$TrBRnofire <- ifelse(plotDF1$TrBRnofire > 0, 1, 0)
     plotDF1$C3Gnofire <- ifelse(plotDF1$C3Gnofire > 0, 1, 0)
     plotDF1$C4Gnofire <- ifelse(plotDF1$C4Gnofire > 0, 1, 0)
     
