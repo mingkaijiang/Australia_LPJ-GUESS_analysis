@@ -122,7 +122,7 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save(paste0("animated_vegetation_effect_on_TeNE_distribution.gif"), animation=last_animation(), path="output/climate/")
     
     
@@ -160,7 +160,7 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save(paste0("animated_vegetation_effect_on_TeBS_distribution.gif"), animation=last_animation(), path="output/climate/")
     
     
@@ -198,7 +198,7 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save(paste0("animated_vegetation_effect_on_IBS_distribution.gif"), animation=last_animation(), path="output/climate/")
     
     
@@ -235,7 +235,7 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save(paste0("animated_vegetation_effect_on_TeBE_distribution.gif"), animation=last_animation(), path="output/climate/")
     
     
@@ -272,7 +272,7 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save(paste0("animated_vegetation_effect_on_C3G_distribution.gif"), animation=last_animation(), path="output/climate/")
     
     
@@ -309,7 +309,7 @@ overlay_bioclimatic_prediction_and_LPJ_simulation <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save(paste0("animated_vegetation_effect_on_C4G_distribution.gif"), animation=last_animation(), path="output/climate/")
     
     

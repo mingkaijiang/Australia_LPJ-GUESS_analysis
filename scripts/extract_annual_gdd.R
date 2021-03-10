@@ -56,10 +56,10 @@ extract_annual_gdd <- function(inDF, sourceDir) {
     }
     
     ### checking data
-    require(raster)
-    test <- outDF[,,1]
-    r <- raster(test)
-    plot(r)
+    #require(raster)
+    #test <- outDF[,,1]
+    #r <- raster(test)
+    #plot(r)
     
     ### save the data
     saveRDS(outDF, "output/climate/annual_gdd.rds")

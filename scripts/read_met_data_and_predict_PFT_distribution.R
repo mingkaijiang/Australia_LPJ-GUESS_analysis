@@ -150,7 +150,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save("animated_map_tcmin.gif", animation=last_animation(), path="output/climate/")
     
     
@@ -179,7 +179,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save("animated_map_tcmax.gif", animation=last_animation(), path="output/climate/")
     
     
@@ -207,13 +207,13 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save("animated_map_twmin.gif", animation=last_animation(), path="output/climate/")
     
     
     ### gdd5min
     p1 <- ggplot() + 
-        geom_tile(data=plotDF[plotDF$Year==2011,], aes(y=Lat, x=Lon, fill=gdd5min_est)) +
+        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=gdd5min_est)) +
         coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
@@ -228,14 +228,14 @@ read_met_data_and_predict_PFT_distribution <- function() {
         scale_fill_continuous(name="growing degree day",
                               na.value = 'white',
                               type = "viridis",
-                              limits = c(gdd5min.min,gdd5min.max))#+
-        #transition_time(Year)+
-       # labs(title = "Year: {frame_time}")+
-        #shadow_wake(wake_length = 0.1, alpha = FALSE)
+                              limits = c(gdd5min.min,gdd5min.max))+
+        transition_time(Year)+
+        labs(title = "Year: {frame_time}")+
+        shadow_wake(wake_length = 0.1, alpha = FALSE)
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save("animated_map_gdd5min.gif", animation=last_animation(), path="output/climate/")
     
     
@@ -263,7 +263,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
 
         
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save("animated_map_TeNE.gif", animation=last_animation(), path="output/climate/")
     
     
@@ -291,7 +291,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save("animated_map_TeBS.gif", animation=last_animation(), path="output/climate/")
     
     
@@ -318,7 +318,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save("animated_map_IBS.gif", animation=last_animation(), path="output/climate/")
     
     
@@ -346,7 +346,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save("animated_map_TeBE.gif", animation=last_animation(), path="output/climate/")
     
     
@@ -375,7 +375,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save("animated_map_C3G.gif", animation=last_animation(), path="output/climate/")
     
     
@@ -403,7 +403,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     
     ## save animation
-    animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
+    gganimate::animate(p1, fps = 10, width = 750, height = 450,renderer = gifski_renderer())
     anim_save("animated_map_C4G.gif", animation=last_animation(), path="output/climate/")
     
     
