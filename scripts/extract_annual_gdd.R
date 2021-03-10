@@ -34,26 +34,36 @@ extract_annual_gdd <- function(inDF, sourceDir) {
             sDF <- cbind(monDF, sDF)
             
             ### expand to daily values, based on monthly mean
-            daily.matrix <- ifelse(is.na(sDF$sDF[1]), NA, t(mapply(rnorm,30,sDF$sDF,sDF$sDF/3)))
+            #daily.matrix <- ifelse(is.na(sDF$sDF[1]), NA, t(mapply(rnorm,30,sDF$sDF,sDF$sDF/3)))
+            daily.matrix <- t(mapply(rnorm,30,sDF$sDF,sDF$sDF/3))
+            
             dayDF$value <- as.vector(daily.matrix)
             
             ### perform threshold check
-            dayDF$gdd <- ifelse(dayDF$value>5.0, dayDF$value, 0.0)
+            dayDF$gdd <- ifelse(dayDF$value-5.0>0.0, dayDF$value-5.0, 0.0)
+            #sDF$gdd <- ifelse(sDF$sDF-5.0>0.0, sDF$sDF-5.0, 0.0)
             
             ### sum all day in a month
-            mDF <- summaryBy(gdd~Year+Month, FUN=sum, data=dayDF, keep.names=T)
+            mDF <- summaryBy(gdd~Year+Month, FUN=sum, data=dayDF, keep.names=T, na.rm=T)
             
             ### sum all month in a year
-            annDF <- summaryBy(gdd~Year, FUN=sum, data=mDF, keep.names=T)
+            annDF <- summaryBy(gdd~Year, FUN=sum, data=mDF, keep.names=T, na.rm=T)
+            #annDF <- summaryBy(gdd~Year, FUN=sum, data=sDF, keep.names=T)
             
             ### obtain 118 year record
             outDF[i,j,] <- annDF$gdd
         }
     }
     
+    ### checking data
+    require(raster)
+    test <- outDF[,,1]
+    r <- raster(test)
+    plot(r)
+    
     ### save the data
     saveRDS(outDF, "output/climate/annual_gdd.rds")
-    
+
     
     ## return
     return(outDF)

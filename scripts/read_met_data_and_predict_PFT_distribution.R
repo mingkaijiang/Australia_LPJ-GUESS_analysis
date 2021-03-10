@@ -213,7 +213,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     
     ### gdd5min
     p1 <- ggplot() + 
-        geom_tile(data=plotDF, aes(y=Lat, x=Lon, fill=gdd5min_est)) +
+        geom_tile(data=plotDF[plotDF$Year==2011,], aes(y=Lat, x=Lon, fill=gdd5min_est)) +
         coord_quickmap(xlim=xlimlon, ylim=ylimlat)+
         borders("world", col="grey", lwd=0.2) +
         theme(panel.grid.minor=element_blank(),
@@ -228,10 +228,10 @@ read_met_data_and_predict_PFT_distribution <- function() {
         scale_fill_continuous(name="growing degree day",
                               na.value = 'white',
                               type = "viridis",
-                              limits = c(gdd5min.min,gdd5min.max))+
-        transition_time(Year)+
-        labs(title = "Year: {frame_time}")+
-        shadow_wake(wake_length = 0.1, alpha = FALSE)
+                              limits = c(gdd5min.min,gdd5min.max))#+
+        #transition_time(Year)+
+       # labs(title = "Year: {frame_time}")+
+        #shadow_wake(wake_length = 0.1, alpha = FALSE)
     
     
     ## save animation
