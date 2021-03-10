@@ -44,10 +44,10 @@ extract_annual_gdd <- function(inDF, sourceDir) {
             #sDF$gdd <- ifelse(sDF$sDF-5.0>0.0, sDF$sDF-5.0, 0.0)
             
             ### sum all day in a month
-            mDF <- summaryBy(gdd~Year+Month, FUN=sum, data=dayDF, keep.names=T, na.rm=T)
+            mDF <- summaryBy(gdd~Year+Month, FUN=sum, data=dayDF, keep.names=T)
             
             ### sum all month in a year
-            annDF <- summaryBy(gdd~Year, FUN=sum, data=mDF, keep.names=T, na.rm=T)
+            annDF <- summaryBy(gdd~Year, FUN=sum, data=mDF, keep.names=T)
             #annDF <- summaryBy(gdd~Year, FUN=sum, data=sDF, keep.names=T)
             
             ### obtain 118 year record
