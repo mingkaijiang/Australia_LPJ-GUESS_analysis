@@ -6,7 +6,7 @@ read_met_data_and_predict_PFT_distribution <- function() {
     #metDF <- readBin(sourceFile, integer(), endian = "little")
     
     sourceDir <- "/Users/mingkaijiang/Documents/Research/Projects/Trendy/Trendy_Australia_Analysis/output/climate/"
-    tmnDF <- readRDS(paste0(sourceDir, "cru_ts4.03.1901.2018.tmn.dat.rds"))
+    tmpDF <- readRDS(paste0(sourceDir, "cru_ts4.03.1901.2018.tmp.dat.rds"))
     
     ### create lat, lon and time list
     aus.lon.min <- 110.25
@@ -23,9 +23,9 @@ read_met_data_and_predict_PFT_distribution <- function() {
         print("preparing bioclimate dataset ... ... ")
         
         ### create the dataset
-        tminDF <- extract_coldest_month_T(tmnDF)
-        tmaxDF <- extract_warmest_month_T(tmnDF)
-        gddDF <- extract_annual_gdd(tmnDF)
+        tminDF <- extract_coldest_month_T(tmpDF)
+        tmaxDF <- extract_warmest_month_T(tmpDF)
+        gddDF <- extract_annual_gdd(tmpDF, sourceDir)
         
     } else {
         print("reading in bioclimatic dataset ... ...")

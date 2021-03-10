@@ -1,4 +1,4 @@
-extract_annual_gdd <- function(inDF) {
+extract_annual_gdd <- function(inDF, sourceDir) {
     
     ### extract coldest month T for each year
     d <- dim(inDF)
@@ -8,6 +8,18 @@ extract_annual_gdd <- function(inDF) {
                         rep(1901:2018, each=12))
     colnames(monDF) <- c("ID", "Month", "Year")
     
+    dayDF <- data.frame("ID" = c(1:(12*118*30)), 
+                        "DOM" = rep(1:30, 118*12),
+                        "Month" = rep(rep(1:12, each = 30), 118),
+                        "Year" = rep(1901:2018, each=12*30))
+    
+    
+    ### read in tmin and tmax for each month
+    #tmnDF <- readRDS(paste0(sourceDir, "cru_ts4.03.1901.2018.tmn.dat.rds"))
+    #tmxDF <- readRDS(paste0(sourceDir, "cru_ts4.03.1901.2018.tmx.dat.rds"))
+    
+    ### set seed
+    set.seed(123)
     
     ### prepare an outputDF
     outDF <- array(NA, c(d[1], d[2], 118))
@@ -20,9 +32,19 @@ extract_annual_gdd <- function(inDF) {
             
             ### calculate annual mean, based on monthly values for each grid
             sDF <- cbind(monDF, sDF)
-            sDF$gdd <- ifelse(sDF$sDF-5.0>=0.0, sDF$sDF-5.0, 0.0)
-            sDF$gdd <- sDF$gdd * 30.0
-            annDF <- summaryBy(gdd~Year, FUN=sum, data=sDF, na.rm=T, keep.names=T)
+            
+            ### expand to daily values, based on monthly mean
+            daily.matrix <- ifelse(is.na(sDF$sDF[1]), NA, t(mapply(rnorm,30,sDF$sDF,sDF$sDF/3)))
+            dayDF$value <- as.vector(daily.matrix)
+            
+            ### perform threshold check
+            dayDF$gdd <- ifelse(dayDF$value>5.0, dayDF$value, 0.0)
+            
+            ### sum all day in a month
+            mDF <- summaryBy(gdd~Year+Month, FUN=sum, data=dayDF, keep.names=T)
+            
+            ### sum all month in a year
+            annDF <- summaryBy(gdd~Year, FUN=sum, data=mDF, keep.names=T)
             
             ### obtain 118 year record
             outDF[i,j,] <- annDF$gdd
