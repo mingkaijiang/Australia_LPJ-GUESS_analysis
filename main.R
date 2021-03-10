@@ -111,7 +111,7 @@ overlay_bioclimatic_prediction_and_LPJ_simulation()
 ###         within the bioclimatic boundary.
 ###         That is, for the same temperature (MAT or seasonality),
 ###         how rainfall variability correlates with vegetation dynamics of each cohort.
-
+check_effect_of_rainfall_within_same_temperature_range()
 
 
 
