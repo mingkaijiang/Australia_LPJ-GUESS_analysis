@@ -4,15 +4,6 @@ calculate_MAP_based_on_CRU <- function() {
     sourceDir <- "/Users/mingkaijiang/Documents/Research/Projects/Trendy/Trendy_Australia_Analysis/output/climate/"
     tmpDF <- readRDS(paste0(sourceDir, "cru_ts4.03.1901.2018.pre.dat.rds"))
     
-    ### create lat, lon and time list
-    aus.lon.min <- 110.25
-    aus.lon.max <- 155.25
-    aus.lat.min <- -45.25
-    aus.lat.max <- -10.25
-    
-    lon.list <- seq(aus.lon.min, aus.lon.max, 0.5)
-    lat.list <- seq(aus.lat.max, aus.lat.min, -0.5)
-    
     ### calculate annual MAP
     if (!file.exists("output/climate/cru_map_annual.rds")) {
         

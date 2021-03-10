@@ -102,7 +102,15 @@ read_met_data_and_predict_PFT_distribution()
 ###         hence there is regions where mis-matches are apparent.
 overlay_bioclimatic_prediction_and_LPJ_simulation()
 
-### Step 2: Results above suggest that, at the grid level,
+
+### Step 2: Disturbances - it affects vegetation composition within each grid,
+###         and affects individual age and productivity.
+###         Is disturbance a stochastic or deterministic event in the model?
+
+
+
+
+### Step 3: Results above suggest that, at the grid level,
 ###         PFT presence/absence almost never responds to water.
 ###         Maybe at the individual/stand/patch level, 
 ###         trees can still die as a result of drought.
@@ -116,13 +124,8 @@ check_effect_of_rainfall_within_same_temperature_range()
 
 
 
-### Step 3: Nutrient competition.
+### Step 4: Nutrient competition.
 
-
-### Step 4: Vegetation presence outside bioclimatic boundary, why?
-
-
-### Step 5: disturbances? 
 
 
 
