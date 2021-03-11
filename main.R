@@ -110,7 +110,7 @@ overlay_bioclimatic_prediction_and_LPJ_simulation()
 
 
 
-### Step 3: Results above suggest that, at the grid level,
+### Step 3: Results at step 1 suggest that, at the grid level,
 ###         PFT presence/absence almost never responds to water.
 ###         Maybe at the individual/stand/patch level, 
 ###         trees can still die as a result of drought.
@@ -119,6 +119,7 @@ overlay_bioclimatic_prediction_and_LPJ_simulation()
 ###         within the bioclimatic boundary.
 ###         That is, for the same temperature (MAT or seasonality),
 ###         how rainfall variability correlates with vegetation dynamics of each cohort.
+###         Is it necessary to fully replicate the weather generator to investigate cohort level response?
 check_effect_of_rainfall_within_same_temperature_range()
 
 
