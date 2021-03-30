@@ -152,6 +152,10 @@ track_mortality_events(myDF, delete_mortality_file = F)
 
 plot_self_thinning_figures(myDF, patcharea = 1000)
 
+plot_tree_age_and_density_relationship(myDF)
+
+
+
 ############### environmental gradient analysis at selected locations ###################
 #### Possibly not needed, because we have provided analyses on bioclimatic limit and hence
 #### knows exactly what bioclimatic factors affect PFT distribution (all T related).
