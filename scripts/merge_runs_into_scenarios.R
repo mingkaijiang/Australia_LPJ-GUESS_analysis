@@ -32,7 +32,4 @@ merge_runs_into_scenarios <- function() {
     
     } # end of i
     
-    
-    
-    
 }

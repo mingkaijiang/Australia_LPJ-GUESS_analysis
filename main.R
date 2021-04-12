@@ -213,6 +213,6 @@ make_new_model_output_directories()
 merge_runs_into_scenarios()
 
 ### Make comparison plots
-
+make_effect_of_competition_analysis()
 
 #### End
