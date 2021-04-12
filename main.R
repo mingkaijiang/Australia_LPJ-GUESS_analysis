@@ -203,8 +203,16 @@ plot_tree_age_and_density_relationship(myDF)
 
 
 ############### effect of competition on LAI ###################
-make_new_model_storage_directories()
 
+### make new simulation output directories locally
+### and copy over the files from HIE General2
+make_new_model_output_directories()
+
+
+### Merge data for each simulation scenarios
+
+
+### Make comparison plots
 
 
 #### End
