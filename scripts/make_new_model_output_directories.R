@@ -56,4 +56,10 @@ make_new_model_output_directories <- function() {
     )
     
     
+    
+    ### create output directory
+    if(!dir.exists(paste0("output/competition"))) {
+        dir.create(paste0("output/competition"), showWarnings = FALSE)
+    }
+    
 }

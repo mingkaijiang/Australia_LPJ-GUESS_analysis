@@ -210,7 +210,7 @@ make_new_model_output_directories()
 
 
 ### Merge data for each simulation scenarios
-
+merge_runs_into_scenarios()
 
 ### Make comparison plots
 

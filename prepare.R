@@ -63,7 +63,8 @@ pacman::p_load(dplyr,
                gganimate,
                gifski,
                abind,
-               caTools)    
+               caTools,
+               purrr)    
 
 
 #### Sourcing all R files in the modules subdirectory
