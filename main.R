@@ -200,4 +200,11 @@ plot_tree_age_and_density_relationship(myDF)
 ### Need to think about ways to show the data beyond animated plot, i.e. static figure for publication. 
 
 
+
+
+############### effect of competition on LAI ###################
+make_new_model_storage_directories()
+
+
+
 #### End
