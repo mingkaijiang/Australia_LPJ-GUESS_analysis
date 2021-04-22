@@ -5,7 +5,8 @@ make_new_model_output_directories <- function() {
     
     ### pft list
     pft.list <- c(#"BNE", "BINE", "BNS", 
-                  "TeNE", "TeBS", "IBS", "TeBE", 
+                  "TeNE", "IBS", "TeBE", 
+                  #"TeBS", 
                   #"TrBE", "TrIBE", "TrBR", 
                   "C3G", "C4G")
     
@@ -62,5 +63,26 @@ make_new_model_output_directories <- function() {
     if(!dir.exists(paste0("output/competition"))) {
         dir.create(paste0("output/competition"), showWarnings = FALSE)
     }
+    
+    ### read in all files and prepare RDS output
+    ## LAI
+    for (k in var.list) {
+        for (i in pft.list) {
+            
+            myDF <- read.table(paste0("input/run1/", i, "/", k), header=T)
+            
+            ### merge all 20 runs together
+            for (j in 2:20) {
+                myDF2 <- read.table(paste0("input/run", j, "/", i, "/", k), header=T)
+                myDF <- rbind(myDF, myDF2)
+            }
+            
+            saveRDS(myDF, paste0("output/competition/", i, "_", k, ".rds"))
+            
+        }
+    }
+    
+    
+    ### end
     
 }
