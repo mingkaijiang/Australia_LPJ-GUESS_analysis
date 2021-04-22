@@ -46,6 +46,30 @@ if(!dir.exists("output/climate")) {
     dir.create("output/climate", showWarnings = FALSE)
 }
 
+### competition
+#if(!dir.exists("output/competition")) {
+#    dir.create("output/competition", showWarnings = FALSE)
+#}
+
+#run.list <- paste0("run", c(1:20))
+#pft.list <- c("BNE", "BINE", "BNS", 
+#              "TeBS", "TrBE", "TrIBE",
+#              "TrBR", "TeBE", "C3G", "C4G",
+#              "IBS", "TeNE")
+#
+#for (i in run.list) {
+#    if(!dir.exists(paste0("output/competition/", i))) {
+#        dir.create(paste0("output/competition/", i), showWarnings = FALSE)
+#    }
+#    
+#    for (j in pft.list) {
+#        if(!dir.exists(paste0("output/competition/", i, "/", j))) {
+#            dir.create(paste0("output/competition/", i, "/", j), showWarnings = FALSE)
+#        }
+#    }
+#    
+#}
+
 #### Install packages
 if(!require(pacman))install.packages("pacman")
 pacman::p_load(dplyr, 

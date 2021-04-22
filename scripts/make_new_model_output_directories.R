@@ -4,9 +4,10 @@ make_new_model_output_directories <- function() {
     sim.list <- paste0("run", c(1:20))
     
     ### pft list
-    pft.list <- c("BNE", "BINE", "BNS", "TeNE",
-                  "TeBS", "IBS", "TeBE", "TrBE", 
-                  "TrIBE", "TrBR", "C3G", "C4G")
+    pft.list <- c(#"BNE", "BINE", "BNS", 
+                  "TeNE", "TeBS", "IBS", "TeBE", 
+                  #"TrBE", "TrIBE", "TrBR", 
+                  "C3G", "C4G")
     
     
     ## variable list
@@ -33,13 +34,13 @@ make_new_model_output_directories <- function() {
         
         ### establish connection
         require(ssh)
-        session <- ssh_connect("u30046137@43.240.97.5")
+        session <- ssh_connect("u30046137@203.101.231.47")
         
         ### command line
         for (i in sim.list) {
             for (j in pft.list) {
                 for (k in var.list) {
-                    command1 <- paste0("cp /data/Jiang_M/LPJ-GUESS_trunk_r8538/build/",i,"/",j,"/", k)
+                    command1 <- paste0("cp /data/mounts/Q3416/Jiang_M/LPJ-GUESS_trunk_r8538/build/",i,"/",j,"/", k)
                     
                     command2 <- paste0(getwd(), "/input/", i, "/", j, "/")
                     scp_download(session, command1, to=command2)
