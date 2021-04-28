@@ -4,10 +4,10 @@ make_new_model_output_directories <- function() {
     sim.list <- paste0("run", c(1:20))
     
     ### pft list
-    pft.list <- c(#"BNE", "BINE", "BNS", 
-                  "TeNE", "IBS", "TeBE", 
-                  #"TeBS", 
-                  #"TrBE", "TrIBE", "TrBR", 
+    pft.list <- c("BNE", "BINE", #"BNS", 
+                  "TeNE", "IBS", #"TeBE", 
+                  "TeBS", 
+                  "TrBE", "TrIBE", "TrBR", 
                   "C3G", "C4G")
     
     
@@ -15,7 +15,7 @@ make_new_model_output_directories <- function() {
     var.list <- c("lai.out", "fpc.out", "cpool.out")
     
     ### check if file exists, if not, then copy over
-    if (!file.exists("input/run1/TeBE/lai.out")) {
+    if (!file.exists("input/run1/BNE/lai.out")) {
         
         ### message
         print("Copying files from HIE General 2...")

@@ -4,7 +4,8 @@ merge_runs_into_scenarios <- function() {
     sim.list <- paste0("run", c(1:20))
     
     ### pft list
-    pft.list <- c("BNE", "BINE", "BNS", "TeNE",
+    pft.list <- c("BNE", "BINE", #"BNS", 
+                  "TeNE",
                   "TeBS", "IBS", "TeBE", "TrBE", 
                   "TrIBE", "TrBR", "C3G", "C4G")
     
@@ -26,6 +27,10 @@ merge_runs_into_scenarios <- function() {
     myDF.cpool = cpool.files %>% 
         purrr::map_df(~read.table(.,header=T))
     
+    ### save flag
+    print(paste0("saving ", i, " files..."))
+    
+    ### save
     saveRDS(myDF.lai, file=paste0("output/competition/", i, "_lai.rds"))
     saveRDS(myDF.fpc, file=paste0("output/competition/", i, "_fpc.rds"))
     saveRDS(myDF.cpool, file=paste0("output/competition/", i, "_cpool.rds"))
