@@ -109,7 +109,7 @@ make_effect_of_competition_analysis <- function() {
             ### set scales
             plot.scale.range <- round(range(c(sumDF$NoCompetition, sumDF$Competition, sumDF$NoFire)), 0)
             plot.scale.range[1] <- ifelse(plot.scale.range[1] > 0, 0, plot.scale.range[1])
-            plot.scale.range[2] <- plot.scale.range[2] + 1.0
+            plot.scale.range[2] <- ifelse(plot.scale.range[2] == 0.0, plot.scale.range[2], plot.scale.range[2] + 1.0)
             #plot.scale.breaks <- round(c(plot.scale.range[1], 
             #                             plot.scale.range[2]/15, 
             #                             plot.scale.range[2]/15 * 2 + plot.scale.range[2]/15, 
