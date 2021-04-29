@@ -2,9 +2,9 @@ make_effect_of_competition_analysis <- function() {
     
 
     ### read the RDS for different PFT
-    var.list <- c("lai", "fpc", "cpool")
+    var.list <- c("lai")#, "fpc", "cpool")
     
-    pft.list <- c("BNE", "BINE", #"BNS", 
+    pft.list <- c("BNE", "BINE", "BNS", 
                   "TeNE", "IBS", "TeBE", 
                   "TeBS", 
                   "TrBE", "TrIBE", "TrBR", 
@@ -43,11 +43,10 @@ make_effect_of_competition_analysis <- function() {
         tmpDF$Total <- NULL
         myDF <- merge(myDF, tmpDF, by=c("Lon", "Lat", "Year"))
         
-        #tmpDF <- readRDS(paste0("output/competition/BNS_", i, ".out.rds"))
-        #tmpDF$Total <- NULL
-        #myDF <- merge(myDF, tmpDF, by=c("Lon", "Lat", "Year"))
-        myDF$BNS <- 0.0
-        
+        tmpDF <- readRDS(paste0("output/competition/BNS_", i, ".out.rds"))
+        tmpDF$Total <- NULL
+        myDF <- merge(myDF, tmpDF, by=c("Lon", "Lat", "Year"))
+
         tmpDF <- readRDS(paste0("output/competition/TrBE_", i, ".out.rds"))
         tmpDF$Total <- NULL
         myDF <- merge(myDF, tmpDF, by=c("Lon", "Lat", "Year"))
@@ -106,6 +105,12 @@ make_effect_of_competition_analysis <- function() {
             colnames(plotDF) <- c("Lon", "Lat", "Year", "NoCompetition", "Competition",
                                   "NoFire")
             
+            
+            ### convert all 0s to NAs
+            plotDF$NoCompetition <- ifelse(plotDF$NoCompetition == 0, NA, plotDF$NoCompetition)
+            plotDF$Competition <- ifelse(plotDF$Competition == 0, NA, plotDF$Competition)
+            plotDF$NoFire <- ifelse(plotDF$NoFire == 0, NA, plotDF$NoFire)
+            
             plotDF$Competition_Diff <- with(plotDF, NoCompetition - Competition)
             plotDF$Fire_Diff <- with(plotDF, NoFire - Competition)
             
@@ -122,15 +127,13 @@ make_effect_of_competition_analysis <- function() {
             
             
             ### set scales
-            plot.scale.range <- round(range(c(sumDF$NoCompetition, sumDF$Competition, sumDF$NoFire)), 0)
-            plot.scale.range[1] <- ifelse(plot.scale.range[1] > 0, 0, plot.scale.range[1])
+            plot.scale.range <- range(c(sumDF$NoCompetition, sumDF$Competition, sumDF$NoFire), na.rm=T)
+            plot.scale.range[1] <- ifelse(plot.scale.range[1] > 0, 0.01, plot.scale.range[1])
+            log.plot.scale.range <- log(plot.scale.range)
+            log.plot.scale.range[1] <- log(0.01)
+            log.plot.scale.breaks <- seq(log.plot.scale.range[1], log.plot.scale.range[2], length.out=5)
+            plot.scale.breaks <- round(exp(log.plot.scale.breaks),2)
             plot.scale.range[2] <- ifelse(plot.scale.range[2] == 0.0, plot.scale.range[2], plot.scale.range[2] + 1.0)
-            #plot.scale.breaks <- round(c(plot.scale.range[1], 
-            #                             plot.scale.range[2]/15, 
-            #                             plot.scale.range[2]/15 * 2 + plot.scale.range[2]/15, 
-            #                             plot.scale.range[2]/15 * 3 + plot.scale.range[2]/15,
-            #                             plot.scale.range[2]), 1)
-            
             
 
             ### obtain gridded linear fit relationships
@@ -163,7 +166,7 @@ make_effect_of_competition_analysis <- function() {
             #### write
             saveRDS(sumDF, file=paste0("output/competition/Effect_of_competition_", 
                                        i, "_", j, "_all_yr.rds"))
-            
+
             
             ### Plot 100-yr average results
             p1 <- ggplot() + 
@@ -181,10 +184,14 @@ make_effect_of_competition_analysis <- function() {
                       legend.position = "right")+
                 scale_fill_continuous(name=paste0("LAI ", j),
                                       na.value = 'white',
+                                      trans="log",
                                       limits = plot.scale.range,
+                                      breaks = plot.scale.breaks,
+                                      labels = plot.scale.breaks,
                                       type = "viridis")+
                 ggtitle("No competition")
             
+
             p2 <- ggplot() + 
                 geom_tile(data=sumDF, aes(y=Lat, x=Lon, fill=Competition)) +
                 coord_quickmap(xlim=xlim.range, ylim=ylim.range)+
@@ -200,7 +207,10 @@ make_effect_of_competition_analysis <- function() {
                       legend.position = "right")+
                 scale_fill_continuous(name=paste0("LAI ", j),
                                       na.value = 'white',
+                                      trans="log",
                                       limits = plot.scale.range,
+                                      breaks = plot.scale.breaks,
+                                      labels = plot.scale.breaks,
                                       type = "viridis")+
                 ggtitle("With competition")
             
@@ -220,7 +230,10 @@ make_effect_of_competition_analysis <- function() {
                       legend.position = "right")+
                 scale_fill_continuous(name=paste0("LAI ", j),
                                       na.value = 'white',
+                                      trans="log",
                                       limits = plot.scale.range,
+                                      breaks = plot.scale.breaks,
+                                      labels = plot.scale.breaks,
                                       type = "viridis")+
                 ggtitle("No Fire")
             
