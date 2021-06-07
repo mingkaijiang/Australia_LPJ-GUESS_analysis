@@ -10,6 +10,11 @@ rm(list=ls(all=TRUE))
 #### read prepare.R
 source("prepare.R")
 
+############################# Prepare fixed CO2 and fixed temperature data #################################
+prepare_fixed_CO2_input_data(sourceDir=paste0("/Users/mingkaijiang/Documents/Research/Projects/Australia_DGVM_MDI/Models/LPJ-Guess/forcing_data"))
+
+prepare_fixed_T_input_data(sourceDir=paste0("/Users/mingkaijiang/Documents/Research/Projects/Australia_DGVM_MDI/Models/LPJ-Guess/forcing_data"))
+
 
 ############################# Read input #################################
 ### get access to HIE General 2
