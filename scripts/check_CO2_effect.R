@@ -80,6 +80,14 @@ check_CO2_effect <- function() {
     myDF.cpool$Total.abs.diff <- with(myDF.cpool, Total.x - Total.y)
     myDF.cpool$Total.pct.diff <- with(myDF.cpool, Total.x / Total.y)
     
+    
+    ### clean by filtering out incomplete data
+    myDF.cpool[myDF.cpool=="NAN"] <- NA
+    myDF.lai[myDF.lai=="NAN"] <- NA
+    myDF.cpool[sapply(myDF.cpool, is.infinite)] <- NA
+    myDF.lai[sapply(myDF.lai, is.infinite)] <- NA
+    
+    
     ### check temporal pattern, ignore spatial variability
     sumDF1 <- summaryBy(VegC.pct.diff+LitterC.pct.diff+SoilC.pct.diff+Total.pct.diff~Year,
                          FUN=c(mean, sd), data=myDF.cpool, na.rm=T, keep.names=T)
@@ -91,7 +99,7 @@ check_CO2_effect <- function() {
                    measure.vars = 6:9)
     
     sumDF2$sd <- sumDF3$value
-    sumDF2$var <- gsub(".pct.diff.mean", "", sumDF2$var)
+    sumDF2$variable <- gsub(".pct.diff.mean", "", sumDF2$variable)
     
     colnames(sumDF2) <- c("Year", "Cpool", "mean.val", "sd.val")
     
@@ -113,10 +121,50 @@ check_CO2_effect <- function() {
         ylab("CO2 effect (ele/amb) on C pools")+
         ylim(0.5, 2.0)
     
-    plot(p1)
     
+    ### check temporal pattern, ignore spatial variability
+    sumDF1 <- summaryBy(TeNE.pct.diff+TeBS.pct.diff+IBS.pct.diff+TeBE.pct.diff+TrBE.pct.diff+TrIBE.pct.diff+TrBR.pct.diff+C3G.pct.diff+C4G.pct.diff~Year,
+                        FUN=c(mean, sd), data=myDF.lai, na.rm=T, keep.names=T)
+    
+    sumDF2 <- melt(setDT(sumDF1), id.vars = c("Year"),
+                   measure.vars = 2:10)
+    
+    sumDF3 <- melt(setDT(sumDF1), id.vars = c("Year"),
+                   measure.vars = 11:19)
+    
+    sumDF2$sd <- sumDF3$value
+    sumDF2$variable <- gsub(".pct.diff.mean", "", sumDF2$variable)
+    
+    colnames(sumDF2) <- c("Year", "PFT", "mean.val", "sd.val")
+    
+    ### Plot 100-yr average results
+    p2 <- ggplot() + 
+        geom_point(data=sumDF2, aes(x=Year, y=mean.val, fill=PFT), pch = 21, size=3) +
+        #geom_errorbar(data=sumDF2, aes(x=Year, ymin=mean.val-sd.val, ymax=mean.val+sd.val, 
+        #                               col=PFT)) +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_text(size=10),
+              axis.title.x=element_text(size=10),
+              axis.text.y=element_text(size=10),
+              axis.title.y=element_text(size=10),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        theme_linedraw() +
+        ylab("CO2 effect (ele/amb) on LAI")+
+        ylim(0.5, 5.0)
+    
+    
+    pdf("output/climate_sensitivity/cpool_lai_by_year.pdf", width = 6, height = 8)
+    plot(p1)
+    plot(p2)
+    dev.off()
+    
+
     
     ### PFT specific patterns
+    ### read in individual output dataset
         
         
         ### get lon and lat list
