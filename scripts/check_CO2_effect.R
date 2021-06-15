@@ -161,7 +161,485 @@ check_CO2_effect <- function() {
     plot(p2)
     dev.off()
     
-
+    ### prepare grid ID
+    gridDF <- subset(myDF.lai, Year == "1901")
+    gridDF$GridID <- c(1:length(gridDF$Lon))
+    gridDF <- gridDF[,c("Lon", "Lat", "GridID")]
+    
+    myDF.lai <- merge(myDF.lai, gridDF, by=c("Lon", "Lat"))
+    
+    lon.list <- unique(gridDF$Lon)
+    lat.list <- unique(gridDF$Lat)
+    xlim.range <- range(gridDF$Lon)
+    ylim.range <- range(gridDF$Lat)
+    
+    ### perform linear regression at each grid location for different PFT
+    ## Total 
+    my.lm1 = function(myDF.lai) {
+        tryCatch(coef(lm(Total.pct.diff ~ Year, data=myDF.lai)),error=function(e) NULL)
+    }
+    my.lm2 = function(myDF.lai) {
+        tryCatch(summary(lm(Total.pct.diff ~ Year, data=myDF.lai))$coefficients[,4],error=function(e) NULL)
+    }
+    
+    tmpDF = split(myDF.lai, f=myDF.lai$GridID)
+    coefDF1 = sapply(tmpDF, FUN=my.lm1)
+    coefDF2 = sapply(tmpDF, FUN=my.lm2)
+    gridDF$Total_int <- coefDF1[1,]
+    gridDF$Total_slp <- coefDF1[2,]
+    gridDF$Total_pval <- coefDF2[2,]
+    
+    
+    ## TeNE
+    my.lm1 = function(myDF.lai) {
+        tryCatch(coef(lm(TeNE.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[1],error=function(e) NULL)
+    }
+    my.lm2 = function(myDF.lai) {
+        tryCatch(coef(lm(TeNE.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[2],error=function(e) NULL)
+    }
+    my.lm3 = function(myDF.lai) {
+        tryCatch(summary(lm(TeNE.pct.diff ~ Year, data=myDF.lai))$coefficients[2,4],error=function(e) NULL)
+    }
+    
+    tmpDF = split(myDF.lai, f=myDF.lai$GridID)
+    coefDF1 = sapply(tmpDF, FUN=my.lm1)
+    coefDF2 = sapply(tmpDF, FUN=my.lm2)
+    coefDF3 = sapply(tmpDF, FUN=my.lm3)
+    
+    coefDF1[sapply(coefDF1, is.null)] <- NA
+    coefDF2[sapply(coefDF2, is.null)] <- NA
+    coefDF3[sapply(coefDF3, is.null)] <- NA
+    
+    gridDF$TeNE_int <- as.numeric(unlist(coefDF1))
+    gridDF$TeNE_slp <- as.numeric(unlist(coefDF2))
+    gridDF$TeNE_pval <- as.numeric(unlist(coefDF3))
+    
+    
+    ## TeBS
+    my.lm1 = function(myDF.lai) {
+        tryCatch(coef(lm(TeBS.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[1],error=function(e) NULL)
+    }
+    my.lm2 = function(myDF.lai) {
+        tryCatch(coef(lm(TeBS.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[2],error=function(e) NULL)
+    }
+    my.lm3 = function(myDF.lai) {
+        tryCatch(summary(lm(TeBS.pct.diff ~ Year, data=myDF.lai))$coefficients[2,4],error=function(e) NULL)
+    }
+    
+    tmpDF = split(myDF.lai, f=myDF.lai$GridID)
+    coefDF1 = sapply(tmpDF, FUN=my.lm1)
+    coefDF2 = sapply(tmpDF, FUN=my.lm2)
+    coefDF3 = sapply(tmpDF, FUN=my.lm3)
+    
+    coefDF1[sapply(coefDF1, is.null)] <- NA
+    coefDF2[sapply(coefDF2, is.null)] <- NA
+    coefDF3[sapply(coefDF3, is.null)] <- NA
+    
+    gridDF$TeBS_int <- as.numeric(unlist(coefDF1))
+    gridDF$TeBS_slp <- as.numeric(unlist(coefDF2))
+    gridDF$TeBS_pval <- as.numeric(unlist(coefDF3))
+    
+    
+    ## IBS
+    my.lm1 = function(myDF.lai) {
+        tryCatch(coef(lm(IBS.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[1],error=function(e) NULL)
+    }
+    my.lm2 = function(myDF.lai) {
+        tryCatch(coef(lm(IBS.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[2],error=function(e) NULL)
+    }
+    my.lm3 = function(myDF.lai) {
+        tryCatch(summary(lm(IBS.pct.diff ~ Year, data=myDF.lai))$coefficients[2,4],error=function(e) NULL)
+    }
+    
+    tmpDF = split(myDF.lai, f=myDF.lai$GridID)
+    coefDF1 = sapply(tmpDF, FUN=my.lm1)
+    coefDF2 = sapply(tmpDF, FUN=my.lm2)
+    coefDF3 = sapply(tmpDF, FUN=my.lm3)
+    
+    coefDF1[sapply(coefDF1, is.null)] <- NA
+    coefDF2[sapply(coefDF2, is.null)] <- NA
+    coefDF3[sapply(coefDF3, is.null)] <- NA
+    
+    gridDF$IBS_int <- as.numeric(unlist(coefDF1))
+    gridDF$IBS_slp <- as.numeric(unlist(coefDF2))
+    gridDF$IBS_pval <- as.numeric(unlist(coefDF3))
+    
+    
+    ## TeBE 
+    my.lm1 = function(myDF.lai) {
+        tryCatch(coef(lm(TeBE.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[1],error=function(e) NULL)
+    }
+    my.lm2 = function(myDF.lai) {
+        tryCatch(coef(lm(TeBE.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[2],error=function(e) NULL)
+    }
+    my.lm3 = function(myDF.lai) {
+        tryCatch(summary(lm(TeBE.pct.diff ~ Year, data=myDF.lai))$coefficients[2,4],error=function(e) NULL)
+    }
+    
+    tmpDF = split(myDF.lai, f=myDF.lai$GridID)
+    coefDF1 = sapply(tmpDF, FUN=my.lm1)
+    coefDF2 = sapply(tmpDF, FUN=my.lm2)
+    coefDF3 = sapply(tmpDF, FUN=my.lm3)
+    
+    coefDF1[sapply(coefDF1, is.null)] <- NA
+    coefDF2[sapply(coefDF2, is.null)] <- NA
+    coefDF3[sapply(coefDF3, is.null)] <- NA
+    
+    gridDF$TeBE_int <- as.numeric(unlist(coefDF1))
+    gridDF$TeBE_slp <- as.numeric(unlist(coefDF2))
+    gridDF$TeBE_pval <- as.numeric(unlist(coefDF3))
+    
+    
+    ## TrBE
+    my.lm1 = function(myDF.lai) {
+        tryCatch(coef(lm(TrBE.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[1],error=function(e) NULL)
+    }
+    my.lm2 = function(myDF.lai) {
+        tryCatch(coef(lm(TrBE.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[2],error=function(e) NULL)
+    }
+    my.lm3 = function(myDF.lai) {
+        tryCatch(summary(lm(TrBE.pct.diff ~ Year, data=myDF.lai))$coefficients[2,4],error=function(e) NULL)
+    }
+    
+    tmpDF = split(myDF.lai, f=myDF.lai$GridID)
+    coefDF1 = sapply(tmpDF, FUN=my.lm1)
+    coefDF2 = sapply(tmpDF, FUN=my.lm2)
+    coefDF3 = sapply(tmpDF, FUN=my.lm3)
+    
+    coefDF1[sapply(coefDF1, is.null)] <- NA
+    coefDF2[sapply(coefDF2, is.null)] <- NA
+    coefDF3[sapply(coefDF3, is.null)] <- NA
+    
+    gridDF$TrBE_int <- as.numeric(unlist(coefDF1))
+    gridDF$TrBE_slp <- as.numeric(unlist(coefDF2))
+    gridDF$TrBE_pval <- as.numeric(unlist(coefDF3))
+    
+    
+    ## TrIBE
+    my.lm1 = function(myDF.lai) {
+        tryCatch(coef(lm(TrIBE.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[1],error=function(e) NULL)
+    }
+    my.lm2 = function(myDF.lai) {
+        tryCatch(coef(lm(TrIBE.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[2],error=function(e) NULL)
+    }
+    my.lm3 = function(myDF.lai) {
+        tryCatch(summary(lm(TrIBE.pct.diff ~ Year, data=myDF.lai))$coefficients[2,4],error=function(e) NULL)
+    }
+    
+    tmpDF = split(myDF.lai, f=myDF.lai$GridID)
+    coefDF1 = sapply(tmpDF, FUN=my.lm1)
+    coefDF2 = sapply(tmpDF, FUN=my.lm2)
+    coefDF3 = sapply(tmpDF, FUN=my.lm3)
+    
+    coefDF1[sapply(coefDF1, is.null)] <- NA
+    coefDF2[sapply(coefDF2, is.null)] <- NA
+    coefDF3[sapply(coefDF3, is.null)] <- NA
+    
+    gridDF$TrIBE_int <- as.numeric(unlist(coefDF1))
+    gridDF$TrIBE_slp <- as.numeric(unlist(coefDF2))
+    gridDF$TrIBE_pval <- as.numeric(unlist(coefDF3))
+    
+    ## TrBR
+    my.lm1 = function(myDF.lai) {
+        tryCatch(coef(lm(TrBR.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[1],error=function(e) NULL)
+    }
+    my.lm2 = function(myDF.lai) {
+        tryCatch(coef(lm(TrBR.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[2],error=function(e) NULL)
+    }
+    my.lm3 = function(myDF.lai) {
+        tryCatch(summary(lm(TrBR.pct.diff ~ Year, data=myDF.lai))$coefficients[2,4],error=function(e) NULL)
+    }
+    
+    tmpDF = split(myDF.lai, f=myDF.lai$GridID)
+    coefDF1 = sapply(tmpDF, FUN=my.lm1)
+    coefDF2 = sapply(tmpDF, FUN=my.lm2)
+    coefDF3 = sapply(tmpDF, FUN=my.lm3)
+    
+    coefDF1[sapply(coefDF1, is.null)] <- NA
+    coefDF2[sapply(coefDF2, is.null)] <- NA
+    coefDF3[sapply(coefDF3, is.null)] <- NA
+    
+    gridDF$TrBR_int <- as.numeric(unlist(coefDF1))
+    gridDF$TrBR_slp <- as.numeric(unlist(coefDF2))
+    gridDF$TrBR_pval <- as.numeric(unlist(coefDF3))
+    
+    
+    ## C3G
+    my.lm1 = function(myDF.lai) {
+        tryCatch(coef(lm(C3G.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[1],error=function(e) NULL)
+    }
+    my.lm2 = function(myDF.lai) {
+        tryCatch(coef(lm(C3G.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[2],error=function(e) NULL)
+    }
+    my.lm3 = function(myDF.lai) {
+        tryCatch(summary(lm(C3G.pct.diff ~ Year, data=myDF.lai))$coefficients[2,4],error=function(e) NULL)
+    }
+    
+    tmpDF = split(myDF.lai, f=myDF.lai$GridID)
+    coefDF1 = sapply(tmpDF, FUN=my.lm1)
+    coefDF2 = sapply(tmpDF, FUN=my.lm2)
+    coefDF3 = sapply(tmpDF, FUN=my.lm3)
+    
+    coefDF1[sapply(coefDF1, is.null)] <- NA
+    coefDF2[sapply(coefDF2, is.null)] <- NA
+    coefDF3[sapply(coefDF3, is.null)] <- NA
+    
+    gridDF$C3G_int <- as.numeric(unlist(coefDF1))
+    gridDF$C3G_slp <- as.numeric(unlist(coefDF2))
+    gridDF$C3G_pval <- as.numeric(unlist(coefDF3))
+    
+    
+    ## C4G
+    my.lm1 = function(myDF.lai) {
+        tryCatch(coef(lm(C4G.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[1],error=function(e) NULL)
+    }
+    my.lm2 = function(myDF.lai) {
+        tryCatch(coef(lm(C4G.pct.diff ~ Year, data=myDF.lai, na.action = na.omit))[2],error=function(e) NULL)
+    }
+    my.lm3 = function(myDF.lai) {
+        tryCatch(summary(lm(C4G.pct.diff ~ Year, data=myDF.lai))$coefficients[2,4],error=function(e) NULL)
+    }
+    
+    tmpDF = split(myDF.lai, f=myDF.lai$GridID)
+    coefDF1 = sapply(tmpDF, FUN=my.lm1)
+    coefDF2 = sapply(tmpDF, FUN=my.lm2)
+    coefDF3 = sapply(tmpDF, FUN=my.lm3)
+    
+    coefDF1[sapply(coefDF1, is.null)] <- NA
+    coefDF2[sapply(coefDF2, is.null)] <- NA
+    coefDF3[sapply(coefDF3, is.null)] <- NA
+    
+    gridDF$C4G_int <- as.numeric(unlist(coefDF1))
+    gridDF$C4G_slp <- as.numeric(unlist(coefDF2))
+    gridDF$C4G_pval <- as.numeric(unlist(coefDF3))
+    
+    
+    ### plotting
+    p1 <- ggplot(data=gridDF[gridDF$Total_pval<=0.05,]) + 
+        geom_tile(aes(y=Lat, x=Lon, fill=Total_slp)) +
+        coord_quickmap(xlim=xlim.range, ylim=ylim.range)+
+        borders("world", col="grey", lwd=0.2) +
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_steps2(name=paste0("Total slope"),
+                         low = "red",
+                         mid = "white",
+                         high = "blue",
+                         midpoint = 0,
+                         na.value = 'white')
+    
+    p2 <- ggplot(data=gridDF[gridDF$TeNE_pval<=0.05,]) + 
+        geom_tile(aes(y=Lat, x=Lon, fill=TeNE_slp)) +
+        coord_quickmap(xlim=xlim.range, ylim=ylim.range)+
+        borders("world", col="grey", lwd=0.2) +
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_steps2(name=paste0("TeNE slope"),
+                          low = "red",
+                          mid = "white",
+                          high = "blue",
+                          midpoint = 0,
+                          na.value = 'white')
+    
+    
+    p3 <- ggplot(data=gridDF[gridDF$TeBS_pval<=0.05,]) + 
+        geom_tile(aes(y=Lat, x=Lon, fill=TeBS_slp)) +
+        coord_quickmap(xlim=xlim.range, ylim=ylim.range)+
+        borders("world", col="grey", lwd=0.2) +
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_steps2(name=paste0("TeBS slope"),
+                          low = "red",
+                          mid = "white",
+                          high = "blue",
+                          midpoint = 0,
+                          na.value = 'white')
+    
+    
+    p4 <- ggplot(data=gridDF[gridDF$IBS_pval<=0.05,]) + 
+        geom_tile(aes(y=Lat, x=Lon, fill=IBS_slp)) +
+        coord_quickmap(xlim=xlim.range, ylim=ylim.range)+
+        borders("world", col="grey", lwd=0.2) +
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_steps2(name=paste0("IBS slope"),
+                          low = "red",
+                          mid = "white",
+                          high = "blue",
+                          midpoint = 0,
+                          na.value = 'white')
+    
+    
+    p5 <- ggplot(data=gridDF[gridDF$TeBE_pval<=0.05,]) + 
+        geom_tile(aes(y=Lat, x=Lon, fill=TeBE_slp)) +
+        coord_quickmap(xlim=xlim.range, ylim=ylim.range)+
+        borders("world", col="grey", lwd=0.2) +
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_steps2(name=paste0("TeBE slope"),
+                          low = "red",
+                          mid = "white",
+                          high = "blue",
+                          midpoint = 0,
+                          na.value = 'white')
+    
+    
+    p6 <- ggplot(data=gridDF[gridDF$TrBE_pval<=0.05,]) + 
+        geom_tile(aes(y=Lat, x=Lon, fill=TrBE_slp)) +
+        coord_quickmap(xlim=xlim.range, ylim=ylim.range)+
+        borders("world", col="grey", lwd=0.2) +
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_steps2(name=paste0("TrBE slope"),
+                          low = "red",
+                          mid = "white",
+                          high = "blue",
+                          midpoint = 0,
+                          na.value = 'white')
+    
+    
+    p7 <- ggplot(data=gridDF[gridDF$TrIBE_pval<=0.05,]) + 
+        geom_tile(aes(y=Lat, x=Lon, fill=TrIBE_slp)) +
+        coord_quickmap(xlim=xlim.range, ylim=ylim.range)+
+        borders("world", col="grey", lwd=0.2) +
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_steps2(name=paste0("TrIBE slope"),
+                          low = "red",
+                          mid = "white",
+                          high = "blue",
+                          midpoint = 0,
+                          na.value = 'white')
+    
+    
+    p8 <- ggplot(data=gridDF[gridDF$TrBR_pval<=0.05,]) + 
+        geom_tile(aes(y=Lat, x=Lon, fill=TrBR_slp)) +
+        coord_quickmap(xlim=xlim.range, ylim=ylim.range)+
+        borders("world", col="grey", lwd=0.2) +
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_steps2(name=paste0("TrBR slope"),
+                          low = "red",
+                          mid = "white",
+                          high = "blue",
+                          midpoint = 0,
+                          na.value = 'white')
+    
+    
+    p9 <- ggplot(data=gridDF[gridDF$C3G_pval<=0.05,]) + 
+        geom_tile(aes(y=Lat, x=Lon, fill=C3G_slp)) +
+        coord_quickmap(xlim=xlim.range, ylim=ylim.range)+
+        borders("world", col="grey", lwd=0.2) +
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_steps2(name=paste0("C3G slope"),
+                          low = "red",
+                          mid = "white",
+                          high = "blue",
+                          midpoint = 0,
+                          na.value = 'white')
+    
+    p10 <- ggplot(data=gridDF[gridDF$C4G_pval<=0.05&!is.na(gridDF$C4G_slp),]) + 
+        geom_tile(aes(y=Lat, x=Lon, fill=C4G_slp)) +
+        coord_quickmap(xlim=xlim.range, ylim=ylim.range)+
+        borders("world", col="grey", lwd=0.2) +
+        theme_linedraw() +
+        theme(panel.grid.minor=element_blank(),
+              axis.text.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.title.y=element_blank(),
+              legend.text=element_text(size=10),
+              legend.title=element_text(size=12),
+              panel.grid.major=element_blank(),
+              legend.position = "right")+
+        scale_fill_steps2(name=paste0("C4G slope"),
+                          low = "red",
+                          mid = "white",
+                          high = "blue",
+                          midpoint = 0,
+                          na.value = 'white')
+    
+    combined_plot <- plot_grid(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10,
+                               ncol=4, align="vh", axis = "l")
+    
+    save_plot(paste0("output/climate_sensitivity/CO2_response_slope_by_PFT.pdf"),
+              combined_plot, base_width=20, base_height = 20)
+    
+    
+    
     
     ### PFT specific patterns
     ### read in individual output dataset
