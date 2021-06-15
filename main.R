@@ -164,6 +164,9 @@ plot_tree_age_and_density_relationship(myDF)
 ### get all data - currently only fixed CO2 and variable T
 make_new_climate_sensitivity_model_output_directories()
 
+### Trend analysis - CO2 effect at the individual level
+check_CO2_effect()
+
 
 ############### environmental gradient analysis at selected locations ###################
 #### Possibly not needed, because we have provided analyses on bioclimatic limit and hence

@@ -8,10 +8,11 @@ make_new_climate_sensitivity_model_output_directories <- function() {
     
     
     ## variable list
-    var.list <- c("lai.out", "fpc.out", "cpool.out")
+    var.list <- c("indiv.out")
+    #var.list <- c("lai.out", "fpc.out", "cpool.out")
     
     ### check if file exists, if not, then copy over
-    if (!file.exists("input/run1/fixCO2varT/lai.out")) {
+    if (!file.exists("input/run1/fixCO2varT/indiv.out")) {
         
         ### message
         print("Copying files from HIE General 2...")
@@ -60,7 +61,6 @@ make_new_climate_sensitivity_model_output_directories <- function() {
     }
     
     ### read in all files and prepare RDS output
-    ## LAI
     for (k in var.list) {
         for (i in clim.list) {
             
