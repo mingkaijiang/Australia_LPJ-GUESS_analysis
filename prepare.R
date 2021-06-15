@@ -46,6 +46,10 @@ if(!dir.exists("output/climate")) {
     dir.create("output/climate", showWarnings = FALSE)
 }
 
+if(!dir.exists("output/climate_sensitivity")) {
+    dir.create("output/climate_sensitivity", showWarnings = FALSE)
+}
+
 ### competition
 #if(!dir.exists("output/competition")) {
 #    dir.create("output/competition", showWarnings = FALSE)
@@ -88,7 +92,8 @@ pacman::p_load(dplyr,
                gifski,
                abind,
                caTools,
-               purrr)    
+               purrr,
+               ssh)    
 
 
 #### Sourcing all R files in the modules subdirectory

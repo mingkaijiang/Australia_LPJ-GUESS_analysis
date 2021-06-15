@@ -160,6 +160,9 @@ plot_self_thinning_figures(myDF, patcharea = 1000)
 
 plot_tree_age_and_density_relationship(myDF)
 
+############### Climate sensitivity ###################
+### get all data - currently only fixed CO2 and variable T
+make_new_climate_sensitivity_model_output_directories()
 
 
 ############### environmental gradient analysis at selected locations ###################
@@ -212,7 +215,7 @@ plot_tree_age_and_density_relationship(myDF)
 
 ### make new simulation output directories locally
 ### and copy over the files from HIE General2
-make_new_model_output_directories()
+make_new_PFT_model_output_directories()
 
 
 ### Merge data for each simulation scenarios
