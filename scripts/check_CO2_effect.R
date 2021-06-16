@@ -652,17 +652,52 @@ check_CO2_effect <- function() {
     indiv.files2 <- paste0("input/run", c(1:20), "/fixCO2varT/indiv.out")
     
     ### read input files
+    ### the input datasets are for 2005 - 2015, for each individual within each patch within each grid and year.
+    
     myDF1 = indiv.files1 %>% 
         purrr::map_df(~read.table(.,header=T))
     
     myDF2 = indiv.files2 %>% 
         purrr::map_df(~read.table(.,header=T))
     
+
+    ### does eCO2 affect patch age?
+    test1 <- subset(myDF1, Year == 2015)
+    test2 <- subset(myDF2, Year == 2015)
     
-    ### merge dataset
-    myDF.lai <- merge(myDF1.lai, myDF2.lai, by=c("Lon", "Lat", "Year"))
-    myDF.cpool <- merge(myDF1.cpool, myDF2.cpool, by=c("Lon", "Lat", "Year"))
-        
+    p1 <- ggplot()+
+        geom_density(data=test1, aes(x=Page), col="black")+
+        geom_density(data=test2, aes(x=Page), col="red")
+    plot(p1)
+    
+    
+    
+    ### does eCO2 affect individual plant age? What is the PFT-specific pattern?
+    gridDF <- test1[,c("Lon", "Lat")]
+    gridDF <- gridDF[!duplicated(gridDF[c(1,2)]),]
+    gridDF$SiteID <- c(1:length(gridDF$Lon))
+    
+    
+    p2 <- ggplot()+
+        geom_density(data=test1[test1$PFT==6,], aes(x=Iage), col="black")+
+        geom_density(data=test2[test2$PFT==6,], aes(x=Iage), col="red")
+    plot(p2)
+    
+    dens1 <- density(test1$Iage)
+    loc1 <- which.max(dens1$y)
+    iage1 <- dens1$x[loc1]
+    
+    dens2 <- density(test2$Iage)
+    loc2 <- which.max(dens2$y)
+    iage2 <- dens2$x[loc2]
+    
+    p2 <- ggplot()+
+        geom_density(data=test1, aes(x=Iage), col="black")+
+        geom_density(data=test2, aes(x=Iage), col="red")
+    plot(p2)
+    
+    ### does eCO2 affect individual tree height, density? What is the PFT-specific pattern?
+    
         
 
     
