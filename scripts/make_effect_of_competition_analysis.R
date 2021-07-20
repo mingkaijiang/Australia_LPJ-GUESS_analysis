@@ -2,7 +2,7 @@ make_effect_of_competition_analysis <- function() {
     
 
     ### read the RDS for different PFT
-    var.list <- c("lai")#, "fpc", "cpool")
+    var.list <- c("fpc")#, "fpc", "cpool")
     
     pft.list <- c("BNE", "BINE", "BNS", 
                   "TeNE", "IBS", "TeBE", 

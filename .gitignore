@@ -47,3 +47,4 @@ vignettes/*.pdf
 *.gif
 *.csv
 *.rds
+*.nc
