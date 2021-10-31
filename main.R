@@ -56,6 +56,8 @@ plot_animated_LAI_map(myDF)
 
 plot_animated_LAI_latitudinal_gradient(myDF)
 
+plot_mean_LAI_map(myDF)
+
 
 
 ############################# Read input on tree density #################################
